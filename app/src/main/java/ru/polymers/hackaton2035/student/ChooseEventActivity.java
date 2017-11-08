@@ -60,7 +60,7 @@ public class ChooseEventActivity extends AppCompatActivity {
         eventListView.setAdapter(adapter);
         eventListView.setOnItemClickListener((parent, view, position, id) -> {
             BackendInterface.Event event = adapter.getItem(position);
-            startActivity(new Intent()); //start event
+            startActivity(new Intent(this, StudentEventActivity.class)); //maybe put some extra
         });
     }
     

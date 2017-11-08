@@ -68,11 +68,12 @@ public class CreateEventActivity extends AppCompatActivity {
         eventListView.setAdapter(adapter);
         eventListView.setOnItemClickListener((parent, view, position, id) -> {
             BackendInterface.Event event = adapter.getItem(position);
-            //TODO start event
+            startActivity(new Intent(this, TeacherEventActivity.class));
         });
         
         FloatingActionButton fab = findViewById(R.id.create_event_fab);
-        fab.setOnClickListener(view -> startActivityForResult(new Intent(this, CreateEventFormActivity.class), 1));
+        fab.setOnClickListener(view -> startActivityForResult(
+                new Intent(this, CreateEventFormActivity.class), 1));
     }
     
     @Override
