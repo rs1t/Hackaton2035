@@ -4,4 +4,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="teacher_label">Преподаватель</string>
+    <string name="student_label">Студент</string>
+    <string name="next_button_label">Далее</string>
 </resources>
