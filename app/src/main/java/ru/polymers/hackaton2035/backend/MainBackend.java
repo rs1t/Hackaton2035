@@ -29,14 +29,15 @@ public class MainBackend implements BackendInterface {
     }
 
     @Override
-    public void sendFeedback(int lecture_id, Feedback feedback) throws IOException {
+    public void sendFeedback(int lecture_id, Feedback feedback) {
         new AsyncTask<Event, Void, Void>() {
             @Override
             protected Void doInBackground(Event... events) {
                 try {
                     sendDataToUrl(Server_Url + "/" + lecture_id + "/add", feedback.toJson());
+                    Log.e("Feedback sender", "Successfully sent");
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e("Feedback sender failed", e.toString());
                 }
                 return null;
             }
@@ -44,18 +45,18 @@ public class MainBackend implements BackendInterface {
     }
 
     @Override
-    public void sendEvent(Event event) throws IOException {
+    public void sendEvent(Event event) {
         new AsyncTask<Event, Void, Void>() {
             @Override
             protected Void doInBackground(Event... events) {
                 try {
                     sendDataToUrl(MainBackend.Server_Url +"/add", events[0].toJson());
+                    Log.e("Event sender", "Successfully sent");
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e("Event sender failed", e.toString());
                 }
                 return null;
             }
-            //
         };
     }
 
