@@ -23,6 +23,10 @@ public class CreateEventFormActivity extends AppCompatActivity {
         EditText eventName = findViewById(R.id.event_name_edit_text);
         EditText teacherName = findViewById(R.id.teacher_name_edit_text);
         EditText dateAndTime = findViewById(R.id.date_and_time_edit_text);
+        
+        eventName.setText("Дискретная математика");
+        teacherName.setText("В.Г. Пак");
+        dateAndTime.setText("14:00-15:30");
     
         Button addEventButton = findViewById(R.id.add_event_button);
         addEventButton.setOnClickListener(v -> {

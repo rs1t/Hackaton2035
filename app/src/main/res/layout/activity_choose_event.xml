@@ -7,19 +7,11 @@
     android:layout_height="match_parent"
     tools:context="ru.polymers.hackaton2035.student.ChooseEventActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Введите Event ID"
-        android:id="@+id/event_id_edit_text"
-        android:imeOptions="actionDone"
-        android:inputType="text"
-        android:maxLines="1"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/events_list_view"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
 
 </android.support.constraint.ConstraintLayout>

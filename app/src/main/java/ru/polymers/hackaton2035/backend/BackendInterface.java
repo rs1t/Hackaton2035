@@ -62,8 +62,7 @@ public interface BackendInterface {
         }
     
         public static int getId() {
-            Calendar cal = Calendar.getInstance();
-            return (int) cal.getTimeInMillis() % 1000;
+            return 1;
         }
     }
     

@@ -50,8 +50,8 @@ public class MainBackend implements BackendInterface {
             @Override
             protected Void doInBackground(Event... events) {
                 try {
-                    sendDataToUrl(MainBackend.Server_Url +"/add", events[0].toJson());
-                    Log.e("Event sender", "Successfully sent");
+                    sendDataToUrl(MainBackend.Server_Url +"/lectures/add", events[0].toJson());
+                    Log.e("Event sender", "No exceptions caught");
                 } catch (IOException e) {
                     Log.e("Event sender failed", e.toString());
                 }
@@ -134,11 +134,9 @@ public class MainBackend implements BackendInterface {
     private static void sendDataToUrl(String url_s, String data) throws IOException {
         URL url = new URL(url_s);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-
-
-        Uri.Builder builder = new Uri.Builder()
-                .appendQueryParameter("json", data);
+        conn.setRequestMethod("GET");
+        
+        Uri.Builder builder = new Uri.Builder();
         String query = builder.build().getEncodedQuery();
 
         OutputStream os = conn.getOutputStream();

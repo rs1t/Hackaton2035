@@ -1,24 +1,16 @@
 package ru.polymers.hackaton2035.teacher;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -26,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import ru.polymers.hackaton2035.EventListAdapter;
 import ru.polymers.hackaton2035.R;
 import ru.polymers.hackaton2035.UserGreetingActivity;
 import ru.polymers.hackaton2035.backend.BackendInterface;
@@ -75,7 +68,7 @@ public class CreateEventActivity extends AppCompatActivity {
         eventListView.setAdapter(adapter);
         eventListView.setOnItemClickListener((parent, view, position, id) -> {
             BackendInterface.Event event = adapter.getItem(position);
-            
+            //TODO start event
         });
         
         FloatingActionButton fab = findViewById(R.id.create_event_fab);
@@ -97,41 +90,9 @@ public class CreateEventActivity extends AppCompatActivity {
             backend.sendEvent(newEvent);
         } catch (IOException e) {
             Toast.makeText(this, "Problems with connection :(", Toast.LENGTH_LONG).show();
+            Log.e("Connection error", e.toString());
         }
         adapter.notifyDataSetChanged();
-    }
-    
-    private class EventListAdapter extends ArrayAdapter<BackendInterface.Event> {
-        Context context;
-        
-        public EventListAdapter(@NonNull Context context, int resource, @NonNull List<BackendInterface.Event> events) {
-            super(context, resource, events);
-            this.context = context;
-        }
-        
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            
-            View listItem = convertView;
-            
-            if (listItem == null) {
-                LayoutInflater layoutInflater = LayoutInflater.from(context);
-                listItem = layoutInflater.inflate(R.layout.item_event, null);
-            }
-            
-            TextView eventNameTextView = listItem.findViewById(R.id.event_name);
-            eventNameTextView.setText(getItem(position).name);
-            
-            TextView teacherNameTextView = listItem.findViewById(R.id.teacher_name);
-            teacherNameTextView.setText(getItem(position).teacher_name);
-            
-            TextView dateAndTimeTextView = listItem.findViewById(R.id.event_date_and_time);
-            dateAndTimeTextView.setText(getItem(position).start_time);
-            
-            return listItem;
-        }
-        
     }
     
     
