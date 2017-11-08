@@ -15,13 +15,13 @@ public interface BackendInterface {
 
     void eventsUpdater(int student_id, int interval);
 
-    void sendFeedback(Mark... marks) throws IOException;
+    void sendMark(Mark... marks) throws IOException;
 
     void sendEvent(Event... events) throws IOException;
 
     void getEvent(int event_id);
 
-    void startEvent(Integer... event_ids);
+    void startEvent(int event_id) throws IOException;
 
     void deleteEvent(Integer... event_ids);
 
@@ -96,6 +96,10 @@ public interface BackendInterface {
 
     class Timestamp {
         int YYYY, MM, DD, hh, mm, ss;
+
+        Timestamp() {
+            setDefaultToday();
+        }
 
         Timestamp(String s) {
             parse(s);

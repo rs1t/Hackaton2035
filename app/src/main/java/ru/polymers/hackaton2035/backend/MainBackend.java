@@ -40,12 +40,13 @@ public class MainBackend implements BackendInterface {
     }
 
     @Override
-    public void sendFeedback(Mark... marks) {
+    public void sendMark(Mark... marks) {
         new AsyncTask<Mark, Void, Void>() {
             @Override
             protected Void doInBackground(Mark... marks) {
                 try {
                     for (Mark mark : marks) {
+
                         sendDataToUrl(Server_Url + "/" + mark.event_id + "/add", mark.toJson());
                     }
                     Log.e("Mark sender", "Successfully sent");
@@ -135,8 +136,8 @@ public class MainBackend implements BackendInterface {
     }
 
     @Override
-    public void startEvent(Integer... event_ids) {
-
+    public void startEvent(int event_id) throws IOException {
+        sendDataToUrl(Server_Url + "/" + event_id + "/m/s", new Timestamp().toString());
     }
 
     @Override
