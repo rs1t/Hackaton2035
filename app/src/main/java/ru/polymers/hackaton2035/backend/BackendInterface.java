@@ -23,6 +23,8 @@ public interface BackendInterface {
 
     void startEvent(int event_id) throws IOException;
 
+    void endEvent(int event_id) throws IOException;
+
     void deleteEvent(Integer... event_ids);
 
     void downloadFile(String url, String path, Context context);

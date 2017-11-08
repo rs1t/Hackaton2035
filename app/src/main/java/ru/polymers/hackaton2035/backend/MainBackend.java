@@ -140,6 +140,10 @@ public class MainBackend implements BackendInterface {
         sendDataToUrl(Server_Url + "/" + event_id + "/m/s", new Timestamp().toString());
     }
 
+    public void endEvent(int event_id) throws IOException {
+        sendDataToUrl(Server_Url + "/" + event_id + "/m/e", new Timestamp().toString());
+    }
+
     @Override
     public void deleteEvent(Integer... event_ids) {
         new AsyncTask<Integer, Void, Void>() {
