@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 
 @SuppressLint("StaticFieldLeak")
 public class MainBackend implements BackendInterface {
-    public String Server_Url = "http://192.168.88.214:8000"; // дефолтный
+    public static String Server_Url = "http://192.168.88.214:8000"; // дефолтный
     FrontendInterface fi;
 
     MainBackend(FrontendInterface fi, String server_Url) {
@@ -28,12 +28,33 @@ public class MainBackend implements BackendInterface {
 
     @Override
     public void sendFeedback(int lecture_id, Feedback feedback) throws IOException {
-        sendDataToUrl(Server_Url + "/" + lecture_id + "/add", feedback.toJson());
+        new AsyncTask<Event, Void, Void>() {
+            @Override
+            protected Void doInBackground(Event... events) {
+                try {
+                    sendDataToUrl(Server_Url + "/" + lecture_id + "/add", feedback.toJson());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
     }
 
     @Override
     public void sendEvent(Event event) throws IOException {
-        sendDataToUrl(Server_Url + "/add", event.toJson());
+        new AsyncTask<Event, Void, Void>() {
+            @Override
+            protected Void doInBackground(Event... events) {
+                try {
+                    sendDataToUrl(MainBackend.Server_Url +"/add", events[0].toJson());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            //
+        };
     }
 
     @Override
