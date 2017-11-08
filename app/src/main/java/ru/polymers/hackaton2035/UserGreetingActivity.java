@@ -1,10 +1,9 @@
 package ru.polymers.hackaton2035;
 
-import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 public class UserGreetingActivity extends AppCompatActivity {
     
@@ -14,14 +13,16 @@ public class UserGreetingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_greeting);
         
         findViewById(R.id.next_button).setOnClickListener(view -> {
-            switch (view.getId()) {
+            switch (((RadioGroup) findViewById(R.id.student_teacher_radio_group)).getCheckedRadioButtonId()) {
                 case R.id.student_radio_button:
-                    //start choose event activity
-                    //put data in shared prefs
+                    PreferenceManager.getDefaultSharedPreferences(this)
+                            .edit().remove("student").putBoolean("student", true).apply();
+                    finish();
                     break;
                 case R.id.teacher_radio_button:
-                    //start create event activity
-                    //put data in shared prefs
+                    PreferenceManager.getDefaultSharedPreferences(this)
+                            .edit().remove("student").putBoolean("student", false).apply();
+                    finish();
                     break;
             }
         });
