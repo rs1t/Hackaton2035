@@ -21,7 +21,7 @@ public interface BackendInterface {
         int id;
         String name;
         String teacher_name;
-        long start_time, end_time;
+        String start_time, end_time;
         String video_link;
         String[] file_links;
         Timeline timeline;
@@ -33,6 +33,14 @@ public interface BackendInterface {
         boolean hasFiles() {
             return video_link != null && !video_link.equals("");
         }
+
+        Timestamp getStartTime() {
+            return new Timestamp(start_time);
+        }
+
+        Timestamp getEndTime() {
+            return new Timestamp(end_time);
+        }
     }
     
     class Timeline {
@@ -41,6 +49,15 @@ public interface BackendInterface {
 
     class Timestamp {
         int YYYY, MM, DD, hh, mm, ss;
+        Timestamp(String s) {
+            char[] chars = s.toCharArray();
+            YYYY = 1000 * chars[0] + 100 * chars[1] + 10 * chars[2] + chars[3];
+            MM = 10 * chars[5] + chars[6];
+            DD = 10 * chars[8] + chars[9];
+            hh = 10 * chars[11] + chars[12];
+            mm = 10 * chars[14] + chars[15];
+            ss = 10 * chars[17] + chars[18];
+        }
     }
 
     class Feedback {
