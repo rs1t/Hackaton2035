@@ -17,7 +17,7 @@
         tools:text="Лекция 6. Дискретная математика"/>
 
     <TextView
-        android:id="@+id/teacher_name"
+        android:id="@+id/lecturer_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

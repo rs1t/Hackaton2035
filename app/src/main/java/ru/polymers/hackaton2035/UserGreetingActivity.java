@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.widget.RadioGroup;
 
 public class UserGreetingActivity extends AppCompatActivity {
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_greeting);
-        
+
         findViewById(R.id.next_button).setOnClickListener(view -> {
             switch (((RadioGroup) findViewById(R.id.student_teacher_radio_group)).getCheckedRadioButtonId()) {
                 case R.id.student_radio_button:

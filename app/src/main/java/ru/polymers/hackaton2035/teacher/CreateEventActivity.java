@@ -27,38 +27,38 @@ import ru.polymers.hackaton2035.backend.MainBackend;
 import ru.polymers.hackaton2035.student.ChooseEventActivity;
 
 public class CreateEventActivity extends AppCompatActivity {
-    
+
     BackendInterface backend = new MainBackend(new FrontendInterface() {
-        
+
         @Override
         public void setEventNames(BackendInterface.Event[] events) {
             CreateEventActivity.this.events = Arrays.asList(events);
             adapter.notifyDataSetChanged();
         }
-        
+
         @Override
         public void setEvent(BackendInterface.Event event) {
             CreateEventActivity.this.events.add(event);
             adapter.notifyDataSetChanged();
         }
     }, "");
-    
+
     private List<BackendInterface.Event> events;
     private EventListAdapter adapter;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-        
+
         if (!PreferenceManager.getDefaultSharedPreferences(this)
                 .contains("student")) {
             startActivity(new Intent(this, UserGreetingActivity.class));
         }
-        
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        
+
         events = new ArrayList<>();
         ListView eventListView = findViewById(R.id.events_list_view);
         adapter = new EventListAdapter(
@@ -70,20 +70,20 @@ public class CreateEventActivity extends AppCompatActivity {
             BackendInterface.Event event = adapter.getItem(position);
             startActivity(new Intent(this, TeacherEventActivity.class));
         });
-        
+
         FloatingActionButton fab = findViewById(R.id.create_event_fab);
         fab.setOnClickListener(view -> startActivityForResult(
                 new Intent(this, CreateEventFormActivity.class), 1));
     }
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
+
         Bundle extras = data.getExtras();
         BackendInterface.Event newEvent = new BackendInterface.Event(
                 extras.getString("event_name"),
-                extras.getString("teacher_name"),
+                extras.getString("lecturer_name"),
                 extras.getString("date_and_time"),
                 BackendInterface.Event.getId());
         events.add(newEvent);
@@ -95,26 +95,26 @@ public class CreateEventActivity extends AppCompatActivity {
         }
         adapter.notifyDataSetChanged();
     }
-    
-    
+
+
     @Override
     protected void onResume() {
         super.onResume();
-        
+
         if (PreferenceManager.getDefaultSharedPreferences(this).
                 getBoolean("student", true)) {
             startActivity(new Intent(this, ChooseEventActivity.class));
             finish();
         }
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

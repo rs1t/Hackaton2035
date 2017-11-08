@@ -3,7 +3,6 @@ package ru.polymers.hackaton2035.backend;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -24,13 +23,13 @@ public interface BackendInterface {
             this.id = id;
             this.name = name;
         }
-    
-        public Event(String name, String teacher_name, String start_time, int id) {
+
+        public Event(String name, String lecturer_name, String date_start, int id) {
             this.id = id;
             this.name = name;
-            this.teacher_name = teacher_name;
-            this.start_time = start_time;
-//          this.end_time = new Timestamp(start_time, 1.5).toString();
+            this.lecturer_name = lecturer_name;
+            this.date_start = date_start;
+//          this.date_end = new Timestamp(date_start, 1.5).toString();
         }
 
         public Event(String json) {
@@ -38,18 +37,18 @@ public interface BackendInterface {
         }
 
         String toJson() {
-            start_time = new Timestamp(start_time).toString();
-            end_time = new Timestamp(end_time).toString();
+            date_start = new Timestamp(date_start).toString();
+            date_end = new Timestamp(date_end).toString();
             return new Gson().toJson(this);
         }
 
         int id;
         public String name;
-        public String teacher_name;
-        public String start_time, end_time = null; //HH:MM
+        public String lecturer_name;
+        public String date_start, date_end = null; //HH:MM
         String video_link;
         String[] file_links;
-        Timeline timeline;
+        Timeline[] timeline;
 
         boolean hasVideo() {
             return video_link != null && !video_link.equals("");
@@ -60,28 +59,29 @@ public interface BackendInterface {
         }
 
         Timestamp getStartTime() {
-            return new Timestamp(start_time);
+            return new Timestamp(date_start);
         }
 
         Timestamp getEndTime() {
-            return new Timestamp(end_time);
+            return new Timestamp(date_end);
         }
-    
+
         public static int getId() {
             return 1;
         }
     }
-    
-    class Timeline {
 
+    class Timeline {
+        int[] flags;
     }
 
     class Timestamp {
         int YYYY, MM, DD, hh, mm, ss;
+
         Timestamp(String s) {
             parse(s);
         }
-    
+
         Timestamp(String s, double v) {
             parse(s);
             mm += (v % 1) * 60;
@@ -124,8 +124,8 @@ public interface BackendInterface {
 
         @Override
         public String toString() {
-            return (YYYY < 2000 ? 2017 : YYYY) + "-" + (MM > 9 ? "" : "0") + MM + "-" + (DD > 9 ? "" : "0") + DD + " " +  (hh > 9 ? "" : "0")
-                    + hh +  ":" +  (mm > 9 ? "" : "0") + mm + ":" +  (ss > 9 ? "" : "0") + ss;
+            return (YYYY < 2000 ? 2017 : YYYY) + "-" + (MM > 9 ? "" : "0") + MM + "-" + (DD > 9 ? "" : "0") + DD + " " + (hh > 9 ? "" : "0")
+                    + hh + ":" + (mm > 9 ? "" : "0") + mm + ":" + (ss > 9 ? "" : "0") + ss;
         }
     }
 

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -54,7 +55,7 @@ public class MainBackend implements BackendInterface {
             @Override
             protected Void doInBackground(Event... events) {
                 try {
-                    sendDataToUrl(MainBackend.Server_Url +"/lectures/add", events[0].toJson());
+                    sendDataToUrl(MainBackend.Server_Url + "/lectures/add", events[0].toJson());
                     Log.e("Event sender", "No exceptions caught");
                 } catch (IOException e) {
                     Log.e("Event sender failed", e.toString());

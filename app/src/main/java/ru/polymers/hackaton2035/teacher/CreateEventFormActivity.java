@@ -12,35 +12,35 @@ import android.widget.TextView;
 import ru.polymers.hackaton2035.R;
 
 public class CreateEventFormActivity extends AppCompatActivity {
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event_form);
-        
+
         Intent intent = getIntent();
-    
+
         EditText eventName = findViewById(R.id.event_name_edit_text);
-        EditText teacherName = findViewById(R.id.teacher_name_edit_text);
+        EditText teacherName = findViewById(R.id.lecturer_name_edit_text);
         EditText dateAndTime = findViewById(R.id.date_and_time_edit_text);
-        
+
         eventName.setText("Дискретная математика");
         teacherName.setText("В.Г. Пак");
         dateAndTime.setText("14:00");
-    
+
         Button addEventButton = findViewById(R.id.add_event_button);
         addEventButton.setOnClickListener(v -> {
             intent.putExtra("event_name", eventName.getText().toString());
-            intent.putExtra("teacher_name", teacherName.getText().toString());
+            intent.putExtra("lecturer_name", teacherName.getText().toString());
             intent.putExtra("date_and_time", dateAndTime.getText().toString());
             setResult(RESULT_OK, intent);
             finish();
         });
-        
+
         dateAndTime.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 intent.putExtra("event_name", eventName.getText().toString());
-                intent.putExtra("teacher_name", teacherName.getText().toString());
+                intent.putExtra("lecturer_name", teacherName.getText().toString());
                 intent.putExtra("date_and_time", dateAndTime.getText().toString());
                 setResult(RESULT_OK, intent);
                 finish();
@@ -48,6 +48,6 @@ public class CreateEventFormActivity extends AppCompatActivity {
             }
             return false;
         });
-        
+
     }
 }
