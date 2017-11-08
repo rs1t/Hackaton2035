@@ -88,6 +88,8 @@ public class ChooseEventActivity extends AppCompatActivity {
             case R.id.choose_profile:
                 startActivity(new Intent(this, UserGreetingActivity.class));
                 return true;
+            case R.id.update_events:
+                backend.getEventNames(1);
             default:
                 return super.onOptionsItemSelected(item);
         }

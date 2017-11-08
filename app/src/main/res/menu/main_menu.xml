@@ -6,4 +6,8 @@
               android:title="@string/choose_profile"
               app:showAsAction="never"/>
 
+        <item android:id="@+id/update_events"
+              android:title="Обновить список лекций"
+              app:showAsAction="always"
+                android:icon="@drawable/ic_autorenew_white_24dp"/>
 </menu>
