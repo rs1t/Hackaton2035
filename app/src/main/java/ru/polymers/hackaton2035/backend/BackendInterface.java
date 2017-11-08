@@ -3,7 +3,9 @@ package ru.polymers.hackaton2035.backend;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.util.Calendar;
+import java.util.Date;
 
 // Бекенд посылает во фронтенд данные по запросу через FrontendInterface;
 public interface BackendInterface {
@@ -26,7 +28,7 @@ public interface BackendInterface {
             this.name = name;
             this.teacher_name = teacher_name;
             this.start_time = start_time;
-//            this.end_time = new Timestamp(start_time, 1.5).toString();
+//          this.end_time = new Timestamp(start_time, 1.5).toString();
         }
 
         public Event(String json) {
@@ -34,13 +36,15 @@ public interface BackendInterface {
         }
 
         String toJson() {
+            start_time = new Timestamp(start_time).toString();
+            end_time = new Timestamp(end_time).toString();
             return new Gson().toJson(this);
         }
 
         int id;
         public String name;
         public String teacher_name;
-        public String start_time, end_time; //HH:MM
+        public String start_time, end_time = null; //HH:MM
         String video_link;
         String[] file_links;
         Timeline timeline;
@@ -83,8 +87,23 @@ public interface BackendInterface {
             DD += hh > 24 ? hh - 24 : 0;
         }
 
+        void setDefaultToday() {
+            Calendar cal = Calendar.getInstance();
+            Date t = cal.getTime();
+            YYYY = t.getYear();
+            MM = t.getMonth();
+            DD = t.getDay();
+            hh = t.getHours();
+            mm = t.getMinutes();
+        }
+
         void parse(String s) {
+            if (s == null) return;
+
+            setDefaultToday();
             char[] chars = s.toCharArray();
+            for (int i = 0; i < s.length(); i++)
+                chars[i] -= '0';
             if (chars.length == 19) { // YYYY-MM-DD hh-mm-ss
                 YYYY = 1000 * chars[0] + 100 * chars[1] + 10 * chars[2] + chars[3];
                 MM = 10 * chars[5] + chars[6];
@@ -103,7 +122,8 @@ public interface BackendInterface {
 
         @Override
         public String toString() {
-            return YYYY + "-" + MM + "-" + DD + " " + hh +  ":" + mm + "-" + ss;
+            return (YYYY < 2000 ? 2017 : YYYY) + "-" + (MM > 9 ? "" : "0") + MM + "-" + (DD > 9 ? "" : "0") + DD + " " +  (hh > 9 ? "" : "0")
+                    + hh +  ":" +  (mm > 9 ? "" : "0") + mm + ":" +  (ss > 9 ? "" : "0") + ss;
         }
     }
 
