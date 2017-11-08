@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import ru.polymers.hackaton2035.R;
 import ru.polymers.hackaton2035.UserGreetingActivity;
@@ -23,6 +27,15 @@ public class ChooseEventActivity extends AppCompatActivity {
                 .contains("student")) {
             startActivity(new Intent(this, UserGreetingActivity.class));
         }
+    
+        EditText eventIdEditText = findViewById(R.id.event_id_edit_text);
+        eventIdEditText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                
+                return true;
+            }
+            return false;
+        });
     }
     
     @Override

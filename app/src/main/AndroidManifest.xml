@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserGreetingActivity"
+        <activity
+            android:name=".UserGreetingActivity"
             android:label="Выберете профиль">
         </activity>
-        <activity android:name=".student.ChooseEventActivity"
+        <activity
+            android:name=".student.ChooseEventActivity"
             android:label="Выберете лекцию">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,6 +26,12 @@
             android:name=".teacher.CreateEventActivity"
             android:label="Создайте лекцию"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".student.StudentEventActivity">
+        </activity>
+        <activity android:name=".teacher.TeacherEventActivity">
+        </activity>
+        <activity android:name=".teacher.CreateEventFormActivity">
         </activity>
     </application>
 

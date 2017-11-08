@@ -31,6 +31,12 @@
         tools:context="ru.polymers.hackaton2035.teacher.CreateEventActivity"
         tools:showIn="@layout/activity_create_event">
 
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/events_list_view"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -39,6 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_add_white_24dp"/>
+        app:srcCompat="@drawable/ic_add_white_24dp"
+        app:layout_anchor="@id/events_list_view"
+        app:layout_anchorGravity="bottom|right|end"/>
 
 </android.support.design.widget.CoordinatorLayout>
