@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ru.polymers.hackaton2035.teacher.CreateEventFormActivity">
+
+    <TextView
+        android:id="@+id/event_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Название лекции"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/event_name_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <EditText
+        android:id="@+id/event_name_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Дискретная математика. Лекция 6"
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:nextFocusForward="@+id/teacher_name_edit_text"
+        android:nextFocusDown="@+id/teacher_name_edit_text"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/teacher_name_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_name_title"/>
+
+    <TextView
+        android:id="@+id/teacher_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Имя преподавателя"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/teacher_name_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_name_edit_text"/>
+
+    <EditText
+        android:id="@+id/teacher_name_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="А.В. Иванов"
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:inputType="text"
+        android:nextFocusForward="@+id/date_and_time_edit_text"
+        android:nextFocusDown="@+id/date_and_time_edit_text"
+        app:layout_constraintBottom_toTopOf="@+id/date_and_time_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teacher_name_title"/>
+
+    <TextView
+        android:id="@+id/date_and_time_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Время лекции"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/date_and_time_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teacher_name_edit_text"/>
+
+    <EditText
+        android:id="@+id/date_and_time_edit_text"
+        android:inputType="time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="HH:MM-HH:MM"
+        android:textSize="18sp"
+        android:imeOptions="actionDone"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_and_time_title"/>
+
+    <Button
+        android:id="@+id/add_event_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Добавить"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+</android.support.constraint.ConstraintLayout>
