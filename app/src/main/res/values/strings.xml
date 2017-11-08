@@ -7,4 +7,6 @@
     <string name="teacher_label">Преподаватель</string>
     <string name="student_label">Студент</string>
     <string name="next_button_label">Далее</string>
+    <string name="title_activity_create_event">CreateEventActivity</string>
+    <string name="choose_profile">Выбрать профиль</string>
 </resources>
