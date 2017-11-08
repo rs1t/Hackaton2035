@@ -19,18 +19,38 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ru.polymers.hackaton2035.R;
 import ru.polymers.hackaton2035.UserGreetingActivity;
 import ru.polymers.hackaton2035.backend.BackendInterface;
+import ru.polymers.hackaton2035.backend.FrontendInterface;
+import ru.polymers.hackaton2035.backend.MainBackend;
 import ru.polymers.hackaton2035.student.ChooseEventActivity;
 
 public class CreateEventActivity extends AppCompatActivity {
     
-    private ArrayList<BackendInterface.Event> events;
+    BackendInterface backend = new MainBackend(new FrontendInterface() {
+        
+        @Override
+        public void setEventNames(BackendInterface.Event[] events) {
+            CreateEventActivity.this.events = Arrays.asList(events);
+            adapter.notifyDataSetChanged();
+        }
+        
+        @Override
+        public void setEvent(BackendInterface.Event event) {
+            CreateEventActivity.this.events.add(event);
+            adapter.notifyDataSetChanged();
+        }
+    }, "");
+    
+    private List<BackendInterface.Event> events;
     private EventListAdapter adapter;
     
     @Override
@@ -45,7 +65,7 @@ public class CreateEventActivity extends AppCompatActivity {
         
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-    
+        
         events = new ArrayList<>();
         ListView eventListView = findViewById(R.id.events_list_view);
         adapter = new EventListAdapter(
@@ -54,24 +74,30 @@ public class CreateEventActivity extends AppCompatActivity {
                 events);
         eventListView.setAdapter(adapter);
         eventListView.setOnItemClickListener((parent, view, position, id) -> {
-            //TODO
+            BackendInterface.Event event = adapter.getItem(position);
+            
         });
-    
+        
         FloatingActionButton fab = findViewById(R.id.create_event_fab);
-        fab.setOnClickListener(view -> {
-            startActivityForResult(new Intent(this, CreateEventFormActivity.class), 1);
-        });
+        fab.setOnClickListener(view -> startActivityForResult(new Intent(this, CreateEventFormActivity.class), 1));
     }
+    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         
         Bundle extras = data.getExtras();
-        events.add(new BackendInterface.Event(
+        BackendInterface.Event newEvent = new BackendInterface.Event(
                 extras.getString("event_name"),
                 extras.getString("teacher_name"),
                 extras.getString("date_and_time"),
-                BackendInterface.Event.getId()));
+                BackendInterface.Event.getId());
+        events.add(newEvent);
+        try {
+            backend.sendEvent(newEvent);
+        } catch (IOException e) {
+            Toast.makeText(this, "Problems with connection :(", Toast.LENGTH_LONG).show();
+        }
         adapter.notifyDataSetChanged();
     }
     
@@ -82,7 +108,7 @@ public class CreateEventActivity extends AppCompatActivity {
             super(context, resource, events);
             this.context = context;
         }
-    
+        
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -93,13 +119,13 @@ public class CreateEventActivity extends AppCompatActivity {
                 LayoutInflater layoutInflater = LayoutInflater.from(context);
                 listItem = layoutInflater.inflate(R.layout.item_event, null);
             }
-    
+            
             TextView eventNameTextView = listItem.findViewById(R.id.event_name);
             eventNameTextView.setText(getItem(position).name);
-    
+            
             TextView teacherNameTextView = listItem.findViewById(R.id.teacher_name);
             teacherNameTextView.setText(getItem(position).teacher_name);
-    
+            
             TextView dateAndTimeTextView = listItem.findViewById(R.id.event_date_and_time);
             dateAndTimeTextView.setText(getItem(position).start_time);
             
@@ -107,7 +133,6 @@ public class CreateEventActivity extends AppCompatActivity {
         }
         
     }
-    
     
     
     @Override

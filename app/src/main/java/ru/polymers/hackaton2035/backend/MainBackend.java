@@ -17,12 +17,14 @@ import java.net.URLConnection;
 import com.google.gson.Gson;
 
 @SuppressLint("StaticFieldLeak")
-class MainBackend implements BackendInterface {
+public class MainBackend implements BackendInterface {
     public String Server_Url = "http://192.168.88.214:8000"; // дефолтный
     FrontendInterface fi;
 
-    MainBackend(FrontendInterface fi, String server_Url) {
-        Server_Url = server_Url;
+    public MainBackend(FrontendInterface fi, String server_Url) {
+        if (!server_Url.equals("")) {
+            Server_Url = server_Url;
+        }
         this.fi = fi;
     }
 
