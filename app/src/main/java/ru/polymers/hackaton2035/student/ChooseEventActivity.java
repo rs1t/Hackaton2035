@@ -35,7 +35,7 @@ public class ChooseEventActivity extends AppCompatActivity {
         @Override
         public void setEvent(BackendInterface.Event event) {
             ChooseEventActivity.this.events.add(event);
-            adapter.notifyDataSetChanged();
+            runOnUiThread(() -> adapter.notifyDataSetChanged());
         }
     }, "");
     
