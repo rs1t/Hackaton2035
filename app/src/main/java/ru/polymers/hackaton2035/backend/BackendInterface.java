@@ -17,11 +17,19 @@ public interface BackendInterface {
             this.id = id;
             this.name = name;
         }
+    
+        public Event(String name, String teacher_name, String start_time, int id) {
+            this.id = id;
+            this.name = name;
+            this.teacher_name = teacher_name;
+            this.start_time = new Timestamp(start_time).toString();
+            this.end_time = new Timestamp(start_time, 1.5).toString();
+        }
 
         int id;
-        String name;
-        String teacher_name;
-        String start_time, end_time;
+        public String name;
+        public String teacher_name;
+        public String start_time, end_time; //HH:MM
         String video_link;
         String[] file_links;
         Timeline timeline;
@@ -41,6 +49,11 @@ public interface BackendInterface {
         Timestamp getEndTime() {
             return new Timestamp(end_time);
         }
+    
+        public static int getId() {
+            //TODO
+            return 0;
+        }
     }
     
     class Timeline {
@@ -57,6 +70,9 @@ public interface BackendInterface {
             hh = 10 * chars[11] + chars[12];
             mm = 10 * chars[14] + chars[15];
             ss = 10 * chars[17] + chars[18];
+        }
+    
+        public Timestamp(String start_time, double v) {
         }
     }
 

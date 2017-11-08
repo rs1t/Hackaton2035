@@ -35,7 +35,11 @@ public class CreateEventFormActivity extends AppCompatActivity {
         
         dateAndTime.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                addEventButton.performClick();
+                intent.putExtra("event_name", eventName.getText().toString());
+                intent.putExtra("teacher_name", teacherName.getText().toString());
+                intent.putExtra("date_and_time", dateAndTime.getText().toString());
+                setResult(RESULT_OK, intent);
+                finish();
                 return true;
             }
             return false;
