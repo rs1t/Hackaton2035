@@ -31,9 +31,11 @@
             android:label="Создайте лекцию"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".student.StudentEventActivity">
+        <activity android:name=".student.StudentEventActivity"
+                  android:label="Лекция">
         </activity>
-        <activity android:name=".teacher.TeacherEventActivity">
+        <activity android:name=".teacher.TeacherEventActivity"
+                  android:label="Лекция">
         </activity>
         <activity android:name=".teacher.CreateEventFormActivity">
         </activity>

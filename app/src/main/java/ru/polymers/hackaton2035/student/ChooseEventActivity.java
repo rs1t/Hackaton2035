@@ -9,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.github.mikephil.charting.data.Entry;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +39,10 @@ public class ChooseEventActivity extends AppCompatActivity {
             ChooseEventActivity.this.events.add(event);
             runOnUiThread(() -> adapter.notifyDataSetChanged());
         }
+    
+        @Override
+        public void setEntry(Entry entry) {}
+        
     }, "");
     
     private List<BackendInterface.Event> events;

@@ -70,6 +70,16 @@ public interface BackendInterface {
             return 1;
         }
     }
+    
+    class Entry{
+        private long timestamp;
+        private int marksCount;
+    
+        public Entry(long timeStamp, int marksCount) {
+            this.timestamp = timeStamp;
+            this.marksCount = marksCount;
+        }
+    }
 
     class Timeline {
         int[] flags;
