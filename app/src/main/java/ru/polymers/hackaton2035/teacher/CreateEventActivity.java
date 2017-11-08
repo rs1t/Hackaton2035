@@ -32,14 +32,12 @@ public class CreateEventActivity extends AppCompatActivity {
 
         @Override
         public void setEventNames(BackendInterface.Event[] events) {
-            CreateEventActivity.this.events = Arrays.asList(events);
-            adapter.notifyDataSetChanged();
+            runOnUiThread(() -> { adapter.clear(); adapter.addAll(events); adapter.notifyDataSetChanged();});
         }
 
         @Override
         public void setEvent(BackendInterface.Event event) {
-            CreateEventActivity.this.events.add(event);
-            adapter.notifyDataSetChanged();
+            runOnUiThread(() -> { events.add(event); adapter.notifyDataSetChanged(); });
         }
     }, "");
 
@@ -121,6 +119,8 @@ public class CreateEventActivity extends AppCompatActivity {
             case R.id.choose_profile:
                 startActivity(new Intent(this, UserGreetingActivity.class));
                 return true;
+            case R.id.update_events:
+                backend.getEventNames(1);
             default:
                 return super.onOptionsItemSelected(item);
         }
