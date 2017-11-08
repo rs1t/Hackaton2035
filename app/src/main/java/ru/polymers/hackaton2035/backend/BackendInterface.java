@@ -11,6 +11,8 @@ import java.util.Date;
 public interface BackendInterface {
     void getEventNames(int student_id);
 
+    void eventsUpdater(int student_id, int interval);
+
     void sendFeedback(Feedback feedback) throws IOException;
 
     void sendEvent(Event event) throws IOException;

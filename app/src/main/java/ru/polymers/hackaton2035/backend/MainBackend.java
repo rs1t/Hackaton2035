@@ -2,6 +2,7 @@ package ru.polymers.hackaton2035.backend;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.os.CountDownTimer;
 import android.util.Log;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -82,6 +83,21 @@ public class MainBackend implements BackendInterface {
                 return null;
             }
         }.execute(student_id);
+    }
+
+    @Override
+    public void eventsUpdater(int student_id, int interval) {
+        CountDownTimer timer = new CountDownTimer(Long.MAX_VALUE, interval) {
+            @Override
+            public void onTick(long l) {
+                getEventNames(student_id);
+            }
+
+            @Override
+            public void onFinish() {
+                start();
+            }
+        }.start();
     }
 
     @Override
