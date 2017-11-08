@@ -17,5 +17,6 @@ public class TeacherEventActivity extends AppCompatActivity {
         LineChart timeline = findViewById(R.id.timeline);
         //entry - pair of x - time and y - number of actions
         
+        
     }
 }
