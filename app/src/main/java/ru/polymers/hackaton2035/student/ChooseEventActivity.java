@@ -28,7 +28,8 @@ public class ChooseEventActivity extends AppCompatActivity {
         @Override
         public void setEventNames(BackendInterface.Event[] events) {
             ChooseEventActivity.this.events = Arrays.asList(events);
-            adapter.notifyDataSetChanged();
+            
+            runOnUiThread(() -> adapter.notifyDataSetChanged());
         }
         
         @Override
@@ -45,12 +46,12 @@ public class ChooseEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_event);
-    
+        
         if (!PreferenceManager.getDefaultSharedPreferences(this)
                 .contains("student")) {
             startActivity(new Intent(this, UserGreetingActivity.class));
         }
-    
+        
         events = new ArrayList<>();
         ListView eventListView = findViewById(R.id.events_list_view);
         adapter = new EventListAdapter(
@@ -67,7 +68,7 @@ public class ChooseEventActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-    
+        
         if (!PreferenceManager.getDefaultSharedPreferences(this).
                 getBoolean("student", true)) {
             startActivity(new Intent(this, CreateEventActivity.class));
