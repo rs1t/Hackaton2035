@@ -1,6 +1,8 @@
 package ru.polymers.hackaton2035.backend;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,47 +16,66 @@ import java.net.URLConnection;
 
 import com.google.gson.Gson;
 
-import static ru.polymers.hackaton2035.backend.MainBackend.sendDataToUrl;
-
+@SuppressLint("StaticFieldLeak")
 class MainBackend implements BackendInterface {
-    private String Server_IP = "http://192.168.88.214:8000";
+    public String Server_Url = "http://192.168.88.214:8000"; // дефолтный
+    FrontendInterface fi;
 
-    @Override
-    public Event[] getEventNames(int student_id) {
-        Event[] result;
-        String json;
-        try {
-            json = getDataFromUrl(Server_IP + "/lectures"); ///" + student_id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        result = new Gson().fromJson(json, Event[].class);
-        return result;
+    MainBackend(FrontendInterface fi, String server_Url) {
+        Server_Url = server_Url;
+        this.fi = fi;
     }
 
     @Override
     public void sendFeedback(int lecture_id, Feedback feedback) throws IOException {
-        sendDataToUrl(Server_IP + "/" + lecture_id + "/add", new Gson().toJson(feedback));
+        sendDataToUrl(Server_Url + "/" + lecture_id + "/add", new Gson().toJson(feedback));
     }
 
     @Override
     public void sendEvent(Event event) throws IOException {
-        sendDataToUrl(Server_IP + "/add", new Gson().toJson(event));
+        sendDataToUrl(Server_Url + "/add", new Gson().toJson(event));
     }
 
     @Override
-    public Event getEvent(int event_id) {
-        Event result;
-        String json;
-        try {
-            json = getDataFromUrl(Server_IP + "/lecture/" + event_id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        result = new Gson().fromJson(json, Event.class);
-        return result;
+    public void getEventNames(int student_id) {
+        new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... integers) {
+                Event[] result;
+                String json;
+                try {
+                    json = getDataFromUrl(Server_Url + "/lectures"); ///" + student_id);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+                result = new Gson().fromJson(json, Event[].class);
+
+                fi.setEventNames(result);
+                return null;
+            }
+        }.execute(student_id);
+    }
+
+    @Override
+    public void getEvent(int event_id) {
+        new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... integers) {
+                Event result;
+                String json;
+                try {
+                    json = getDataFromUrl(Server_Url + "/lecture/" + event_id);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+                result = new Gson().fromJson(json, Event.class);
+                fi.setEvent(result);
+                return null;
+            }
+        };
+
     }
 
     private static String getDataFromUrl(String url_s) throws Exception {

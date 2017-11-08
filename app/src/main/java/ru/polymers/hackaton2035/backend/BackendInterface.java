@@ -4,13 +4,13 @@ import java.io.IOException;
 
 // Бекенд посылает во фронтенд данные по запросу через FrontendInterface;
 public interface BackendInterface {
-    Event[] getEventNames(int student_id);
+    void getEventNames(int student_id);
 
     void sendFeedback(int lecture_id, Feedback feedback) throws IOException;
 
     void sendEvent(Event event) throws IOException;
 
-    Event getEvent(int event_id);
+    void getEvent(int event_id);
 
     class Event {
         public Event(int id, String name) {
@@ -36,7 +36,11 @@ public interface BackendInterface {
     }
     
     class Timeline {
-    
+
+    }
+
+    class Timestamp {
+        int YYYY, MM, DD, hh, mm, ss;
     }
 
     class Feedback {
