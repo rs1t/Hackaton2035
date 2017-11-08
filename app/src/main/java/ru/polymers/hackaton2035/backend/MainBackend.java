@@ -29,19 +29,19 @@ public class MainBackend implements BackendInterface {
     }
 
     @Override
-    public void sendFeedback(int lecture_id, Feedback feedback) {
-        new AsyncTask<Event, Void, Void>() {
+    public void sendFeedback(Feedback feedback) {
+        new AsyncTask<Feedback, Void, Void>() {
             @Override
-            protected Void doInBackground(Event... events) {
+            protected Void doInBackground(Feedback... feedbacks) {
                 try {
-                    sendDataToUrl(Server_Url + "/" + lecture_id + "/add", feedback.toJson());
+                    sendDataToUrl(Server_Url + "/" + feedbacks[0].event_id + "/add", feedbacks[0].toJson());
                     Log.e("Feedback sender", "Successfully sent");
                 } catch (IOException e) {
                     Log.e("Feedback sender failed", e.toString());
                 }
                 return null;
             }
-        };
+        }.execute(feedback);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class MainBackend implements BackendInterface {
                 }
                 return null;
             }
-        };
+        }.execute(event);
     }
 
     @Override
@@ -85,11 +85,11 @@ public class MainBackend implements BackendInterface {
     public void getEvent(int event_id) {
         new AsyncTask<Integer, Void, Void>() {
             @Override
-            protected Void doInBackground(Integer... integers) {
+            protected Void doInBackground(Integer... id) {
                 Event result;
                 String json;
                 try {
-                    json = getDataFromUrl(Server_Url + "/lecture/" + event_id);
+                    json = getDataFromUrl(Server_Url + "/lecture/" + id[0]);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
@@ -98,7 +98,7 @@ public class MainBackend implements BackendInterface {
                 fi.setEvent(result);
                 return null;
             }
-        };
+        }.execute(event_id);
 
     }
 
@@ -134,7 +134,7 @@ public class MainBackend implements BackendInterface {
     private static void sendDataToUrl(String url_s, String data) throws IOException {
         URL url = new URL(url_s);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
+        conn.setRequestMethod("POST");
 
 
         Uri.Builder builder = new Uri.Builder()

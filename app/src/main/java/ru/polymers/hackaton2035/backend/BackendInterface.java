@@ -9,7 +9,7 @@ import java.util.Calendar;
 public interface BackendInterface {
     void getEventNames(int student_id);
 
-    void sendFeedback(int lecture_id, Feedback feedback) throws IOException;
+    void sendFeedback(Feedback feedback) throws IOException;
 
     void sendEvent(Event event) throws IOException;
 
@@ -109,8 +109,8 @@ public interface BackendInterface {
     }
 
     class Feedback {
-        int id_lect;
-        int id_stud;
+        int event_id;
+        int user_id;
         int offset;
         int complexity;
         String emoji;
