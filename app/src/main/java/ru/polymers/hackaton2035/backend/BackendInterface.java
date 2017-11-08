@@ -25,8 +25,8 @@ public interface BackendInterface {
             this.id = id;
             this.name = name;
             this.teacher_name = teacher_name;
-            this.start_time = new Timestamp(start_time).toString();
-            this.end_time = new Timestamp(start_time, 1.5).toString();
+            this.start_time = start_time;
+//            this.end_time = new Timestamp(start_time, 1.5).toString();
         }
 
         public Event(String json) {
