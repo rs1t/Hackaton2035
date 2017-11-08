@@ -17,7 +17,7 @@ import java.net.URLConnection;
 import com.google.gson.Gson;
 
 @SuppressLint("StaticFieldLeak")
-class MainBackend implements BackendInterface {
+public class MainBackend implements BackendInterface {
     public String Server_Url = "http://192.168.88.214:8000"; // дефолтный
     FrontendInterface fi;
 
@@ -28,12 +28,12 @@ class MainBackend implements BackendInterface {
 
     @Override
     public void sendFeedback(int lecture_id, Feedback feedback) throws IOException {
-        sendDataToUrl(Server_Url + "/" + lecture_id + "/add", new Gson().toJson(feedback));
+        sendDataToUrl(Server_Url + "/" + lecture_id + "/add", feedback.toJson());
     }
 
     @Override
     public void sendEvent(Event event) throws IOException {
-        sendDataToUrl(Server_Url + "/add", new Gson().toJson(event));
+        sendDataToUrl(Server_Url + "/add", event.toJson());
     }
 
     @Override
@@ -70,7 +70,7 @@ class MainBackend implements BackendInterface {
                     e.printStackTrace();
                     return null;
                 }
-                result = new Gson().fromJson(json, Event.class);
+                result = new Event(json);
                 fi.setEvent(result);
                 return null;
             }
