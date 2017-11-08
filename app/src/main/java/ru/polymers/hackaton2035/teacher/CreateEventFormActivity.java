@@ -21,7 +21,7 @@ public class CreateEventFormActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         EditText eventName = findViewById(R.id.event_name_edit_text);
-        EditText teacherName = findViewById(R.id.lecturer_name_edit_text);
+        EditText teacherName = findViewById(R.id.teacher_name_edit_text);
         EditText dateAndTime = findViewById(R.id.date_and_time_edit_text);
 
         eventName.setText("Дискретная математика");
@@ -31,7 +31,7 @@ public class CreateEventFormActivity extends AppCompatActivity {
         Button addEventButton = findViewById(R.id.add_event_button);
         addEventButton.setOnClickListener(v -> {
             intent.putExtra("event_name", eventName.getText().toString());
-            intent.putExtra("lecturer_name", teacherName.getText().toString());
+            intent.putExtra("teacher_name", teacherName.getText().toString());
             intent.putExtra("date_and_time", dateAndTime.getText().toString());
             setResult(RESULT_OK, intent);
             finish();
@@ -40,7 +40,7 @@ public class CreateEventFormActivity extends AppCompatActivity {
         dateAndTime.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 intent.putExtra("event_name", eventName.getText().toString());
-                intent.putExtra("lecturer_name", teacherName.getText().toString());
+                intent.putExtra("teacher_name", teacherName.getText().toString());
                 intent.putExtra("date_and_time", dateAndTime.getText().toString());
                 setResult(RESULT_OK, intent);
                 finish();

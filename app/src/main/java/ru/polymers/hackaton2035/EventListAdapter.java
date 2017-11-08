@@ -36,11 +36,11 @@ public class EventListAdapter extends ArrayAdapter<BackendInterface.Event> {
         TextView eventNameTextView = listItem.findViewById(R.id.event_name);
         eventNameTextView.setText(getItem(position).name);
 
-        TextView teacherNameTextView = listItem.findViewById(R.id.lecturer_name);
-        teacherNameTextView.setText(getItem(position).lecturer_name);
+        TextView teacherNameTextView = listItem.findViewById(R.id.teacher_name);
+        teacherNameTextView.setText(getItem(position).teacher_name);
 
         TextView dateAndTimeTextView = listItem.findViewById(R.id.event_date_and_time);
-        dateAndTimeTextView.setText(getItem(position).date_start);
+        dateAndTimeTextView.setText(getItem(position).start_time);
 
         return listItem;
     }
