@@ -30,12 +30,12 @@ public class MainBackend implements BackendInterface {
 
     @Override
     public void sendFeedback(int lecture_id, Feedback feedback) throws IOException {
-        sendDataToUrl(Server_Url + "/" + lecture_id + "/add", new Gson().toJson(feedback));
+        sendDataToUrl(Server_Url + "/" + lecture_id + "/add", feedback.toJson());
     }
 
     @Override
     public void sendEvent(Event event) throws IOException {
-        sendDataToUrl(Server_Url + "/add", new Gson().toJson(event));
+        sendDataToUrl(Server_Url + "/add", event.toJson());
     }
 
     @Override
@@ -72,7 +72,7 @@ public class MainBackend implements BackendInterface {
                     e.printStackTrace();
                     return null;
                 }
-                result = new Gson().fromJson(json, Event.class);
+                result = new Event(json);
                 fi.setEvent(result);
                 return null;
             }

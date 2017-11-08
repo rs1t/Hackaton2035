@@ -1,6 +1,9 @@
 package ru.polymers.hackaton2035.backend;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
+import java.util.Calendar;
 
 // Бекенд посылает во фронтенд данные по запросу через FrontendInterface;
 public interface BackendInterface {
@@ -24,6 +27,14 @@ public interface BackendInterface {
             this.teacher_name = teacher_name;
             this.start_time = start_time;
 //            this.end_time = new Timestamp(start_time, 1.5).toString();
+        }
+
+        public Event(String json) {
+            new Gson().fromJson(json, Event.class);
+        }
+
+        String toJson() {
+            return new Gson().toJson(this);
         }
 
         int id;
@@ -51,8 +62,8 @@ public interface BackendInterface {
         }
     
         public static int getId() {
-            //TODO
-            return 0;
+            Calendar cal = Calendar.getInstance();
+            return (int) cal.getTimeInMillis() % 1000;
         }
     }
     
@@ -63,16 +74,37 @@ public interface BackendInterface {
     class Timestamp {
         int YYYY, MM, DD, hh, mm, ss;
         Timestamp(String s) {
-            char[] chars = s.toCharArray();
-            YYYY = 1000 * chars[0] + 100 * chars[1] + 10 * chars[2] + chars[3];
-            MM = 10 * chars[5] + chars[6];
-            DD = 10 * chars[8] + chars[9];
-            hh = 10 * chars[11] + chars[12];
-            mm = 10 * chars[14] + chars[15];
-            ss = 10 * chars[17] + chars[18];
+            parse(s);
         }
     
-        public Timestamp(String start_time, double v) {
+        Timestamp(String s, double v) {
+            parse(s);
+            mm += (v % 1) * 60;
+            hh += (int) v + (mm > 60 ? mm - 60 : 0);
+            DD += hh > 24 ? hh - 24 : 0;
+        }
+
+        void parse(String s) {
+            char[] chars = s.toCharArray();
+            if (chars.length == 19) { // YYYY-MM-DD hh-mm-ss
+                YYYY = 1000 * chars[0] + 100 * chars[1] + 10 * chars[2] + chars[3];
+                MM = 10 * chars[5] + chars[6];
+                DD = 10 * chars[8] + chars[9];
+                hh = 10 * chars[11] + chars[12];
+                mm = 10 * chars[14] + chars[15];
+                ss = 10 * chars[17] + chars[18];
+            } else if (chars.length == 5) { // hh:mm
+                hh = 10 * chars[0] + chars[1];
+                mm = 10 * chars[3] + chars[4];
+            } else if (chars.length == 4) {
+                hh = chars[0];
+                mm = 10 * chars[2] + chars[3];
+            }
+        }
+
+        @Override
+        public String toString() {
+            return YYYY + "-" + MM + "-" + DD + " " + hh +  ":" + mm + "-" + ss;
         }
     }
 
@@ -83,5 +115,9 @@ public interface BackendInterface {
         int complexity;
         String emoji;
         String comment;
+
+        public String toJson() {
+            return new Gson().toJson(this);
+        }
     }
 }
