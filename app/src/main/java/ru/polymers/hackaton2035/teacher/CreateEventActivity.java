@@ -87,7 +87,7 @@ public class CreateEventActivity extends AppCompatActivity {
         Bundle extras = data.getExtras();
         BackendInterface.Event newEvent = new BackendInterface.Event(
                 extras.getString("event_name"),
-                extras.getString("lecturer_name"),
+                extras.getString("teacher_name"),
                 extras.getString("date_and_time"),
                 BackendInterface.Event.getId());
         events.add(newEvent);

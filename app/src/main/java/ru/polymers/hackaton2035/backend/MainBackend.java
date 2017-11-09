@@ -1,13 +1,19 @@
 package ru.polymers.hackaton2035.backend;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,35 +40,40 @@ public class MainBackend implements BackendInterface {
     }
 
     @Override
-    public void sendFeedback(Feedback feedback) {
-        new AsyncTask<Feedback, Void, Void>() {
+    public void sendMark(Mark... marks) {
+        new AsyncTask<Mark, Void, Void>() {
             @Override
-            protected Void doInBackground(Feedback... feedbacks) {
+            protected Void doInBackground(Mark... marks) {
                 try {
-                    sendDataToUrl(Server_Url + "/" + feedbacks[0].event_id + "/add", feedbacks[0].toJson());
-                    Log.e("Feedback sender", "Successfully sent");
+                    for (Mark mark : marks) {
+
+                        sendDataToUrl(Server_Url + "/" + mark.event_id + "/add", mark.toJson());
+                    }
+                    Log.e("Mark sender", "Successfully sent");
                 } catch (IOException e) {
-                    Log.e("Feedback sender failed", e.toString());
+                    Log.e("Mark sender failed", e.toString());
                 }
                 return null;
             }
-        }.execute(feedback);
+        }.execute(marks);
     }
 
     @Override
-    public void sendEvent(Event event) {
+    public void sendEvent(Event... events) {
         new AsyncTask<Event, Void, Void>() {
             @Override
             protected Void doInBackground(Event... events) {
                 try {
-                    sendDataToUrl(MainBackend.Server_Url + "/lectures/add", events[0].toJson());
+                    for (Event event : events) {
+                        sendDataToUrl(MainBackend.Server_Url + "/lectures/add", event.toJson());
+                    }
                     Log.e("Event sender", "No exceptions caught");
                 } catch (IOException e) {
                     Log.e("Event sender failed", e.toString());
                 }
                 return null;
             }
-        }.execute(event);
+        }.execute(events);
     }
 
     @Override
@@ -105,21 +116,65 @@ public class MainBackend implements BackendInterface {
     public void getEvent(int event_id) {
         new AsyncTask<Integer, Void, Void>() {
             @Override
-            protected Void doInBackground(Integer... id) {
+            protected Void doInBackground(Integer... ids) {
                 Event result;
                 String json;
                 try {
-                    json = getDataFromUrl(Server_Url + "/lecture/" + id[0]);
+                    for (Integer id : ids) {
+                        json = getDataFromUrl(Server_Url + "/lecture/" + id);
+                        result = new Event(json);
+                        fi.setEvent(result);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
                 }
-                result = new Event(json);
-                fi.setEvent(result);
                 return null;
             }
         }.execute(event_id);
 
+    }
+
+    @Override
+    public void startEvent(int event_id) throws IOException {
+        sendDataToUrl(Server_Url + "/" + event_id + "/m/s", new Timestamp().toString());
+    }
+
+    public void endEvent(int event_id) throws IOException {
+        sendDataToUrl(Server_Url + "/" + event_id + "/m/e", new Timestamp().toString());
+    }
+
+    @Override
+    public void deleteEvent(Integer... event_ids) {
+        new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... ids) {
+                try {
+                    for (int id : ids) {
+                        sendDataToUrl(Server_Url + "/lecture/" + id + "/d", null);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute(event_ids);
+    }
+
+    @Override
+    public void downloadFile(String url, String path, Context context) {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setDescription("Some descrition");
+        request.setTitle("Some title");
+
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, url.substring(url.lastIndexOf('/')));
+
+        // get download service and enqueue file
+        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
     }
 
     private static String getDataFromUrl(String url_s) throws Exception {
