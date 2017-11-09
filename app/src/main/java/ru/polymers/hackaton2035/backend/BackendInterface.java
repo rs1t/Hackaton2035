@@ -71,10 +71,10 @@ public interface BackendInterface {
         }
     }
     
-    class Entry{
+    class Entry {
         private long timestamp;
         private int marksCount;
-    
+        
         public Entry(long timeStamp, int marksCount) {
             this.timestamp = timeStamp;
             this.marksCount = marksCount;

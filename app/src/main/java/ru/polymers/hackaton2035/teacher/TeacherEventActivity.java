@@ -55,7 +55,7 @@ public class TeacherEventActivity extends AppCompatActivity {
     
         ImageButton playStopEventButton = findViewById(R.id.play_stop_event_button);
         playStopEventButton.setOnClickListener(v -> {
-        
+            //start event
         });
 
         timeline = findViewById(R.id.timeline);
