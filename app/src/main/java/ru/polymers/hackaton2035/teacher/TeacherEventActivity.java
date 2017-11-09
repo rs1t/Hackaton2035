@@ -24,6 +24,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import ru.polymers.hackaton2035.R;
 import ru.polymers.hackaton2035.backend.BackendInterface;
@@ -39,12 +40,15 @@ public class TeacherEventActivity extends AppCompatActivity {
     int event_id;
     
     private BackendInterface backend = new MainBackend(new FrontendInterface() {
-    
+        
         @Override
-        public void setEventNames(Event[] events) {}
+        public void setEventNames(Event[] events) {
+        }
+        
         @Override
-        public void setEvent(Event event) {}
-    
+        public void setEvent(Event event) {
+        }
+        
         @Override
         public void setEntry(Entry entry) {
             entries.add(entry);
@@ -56,17 +60,17 @@ public class TeacherEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_event);
-    
+        
         ImageButton playStopEventButton = findViewById(R.id.play_stop_event_button);
         playStopEventButton.setOnClickListener(v -> {
             //start event
         });
-
+        
         event_id = getIntent().getIntExtra("id", 1);
         
         timeline = findViewById(R.id.timeline);
         //entry - pair of x - time and y - number of actions
-    
+        
         entries = new ArrayList<>();
         entries.add(new Entry(0f, 0f));
         
@@ -77,15 +81,15 @@ public class TeacherEventActivity extends AppCompatActivity {
         entries.add(new Entry(25f, 4f));
         entries.add(new Entry(30f, 0f));
         entries.add(new Entry(35f, 0f));
-    
+        
         LineDataSet dataSet = new LineDataSet(entries, "Активность");
         LineData lineData = new LineData(dataSet);
         
-        styleChart(dataSet, lineData);
+//        styleChart(dataSet, lineData);
         
         timeline.setData(lineData);
         timeline.invalidate(); // refresh
-    
+        
         ImageView presentation = findViewById(R.id.presentation);
         findViewById(R.id.next_slide_button).setOnClickListener(
                 v -> presentation.setImageDrawable(getResources().getDrawable(R.drawable.presentation_sample2)));
@@ -93,13 +97,20 @@ public class TeacherEventActivity extends AppCompatActivity {
                 v -> presentation.setImageDrawable(getResources().getDrawable(R.drawable.presentation_sample1)));
         
         Chronometer timer = findViewById(R.id.timer);
-    
+        
         findViewById(R.id.play_stop_event_button).setOnClickListener(v -> {
             timer.start();
             try {
                 backend.startEvent(event_id);
             } catch (IOException e) {
                 Log.e("IOEXCEPTION", "IOException during backend.startEvent()");
+            }
+            float x = 0f;
+            for (int i = 0; i < 100; i++) {
+                dataSet.addEntry(new Entry(x, new Random().nextFloat() % 10));
+                timeline.notifyDataSetChanged();
+                timeline.invalidate();
+                x += 5f;
             }
         });
     }
@@ -110,29 +121,29 @@ public class TeacherEventActivity extends AppCompatActivity {
         dataSet.setValueTextSize(15f);
         
         dataSet.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
-    
+        
         IAxisValueFormatter formatter = (value, axis) -> String.valueOf((int) value);
         IValueFormatter valueFormatter = (value, entry, dataSetIndex, viewPortHandler) -> String.valueOf((int) value);
         lineData.setValueFormatter(valueFormatter);
-    
+        
         XAxis xAxis = timeline.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(formatter);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawLabels(false);
-    
+        
         timeline.getAxisLeft().setDrawGridLines(false);
         timeline.getAxisLeft().setEnabled(false);
-    
+        
         timeline.getAxisRight().setDrawGridLines(false);
         timeline.getAxisRight().setEnabled(false);
-    
+        
         Description description = new Description();
         description.setText("");
         timeline.setDescription(description);
         timeline.setHighlightPerDragEnabled(false);
         timeline.setHighlightPerTapEnabled(false);
-    
+        
         timeline.setDrawBorders(false);
         timeline.setGridBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
         

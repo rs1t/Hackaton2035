@@ -52,7 +52,6 @@ public class StudentEventActivity extends AppCompatActivity {
     
         entries = new ArrayList<>();
         entries.add(new Entry(0f, 0f));
-    
         entries.add(new Entry(5f, 2f));
         entries.add(new Entry(10f, 1f));
         entries.add(new Entry(15f, 0f));
