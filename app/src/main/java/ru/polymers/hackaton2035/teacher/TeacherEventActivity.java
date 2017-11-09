@@ -1,5 +1,6 @@
 package ru.polymers.hackaton2035.teacher;
 
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import ru.polymers.hackaton2035.R;
 import ru.polymers.hackaton2035.backend.BackendInterface;
@@ -85,13 +88,13 @@ public class TeacherEventActivity extends AppCompatActivity {
 //        entries.add(new Entry(35f, 0f));
 //
         LineDataSet dataSet = new LineDataSet(entries, "Активность");
+        
         LineData lineData = new LineData(dataSet);
         
-//        styleChart(dataSet, lineData);
+        styleChart(dataSet, lineData);
         
         timeline.setData(lineData);
         timeline.invalidate(); // refresh
-        timeline.enableScroll();
         
         ImageView presentation = findViewById(R.id.presentation);
         findViewById(R.id.next_slide_button).setOnClickListener(
@@ -100,25 +103,53 @@ public class TeacherEventActivity extends AppCompatActivity {
                 v -> presentation.setImageDrawable(getResources().getDrawable(R.drawable.presentation_sample1)));
         
         
-        
         findViewById(R.id.play_stop_event_button).setOnClickListener(v -> {
             try {
                 backend.startEvent(event_id);
             } catch (IOException e) {
                 Log.e("IOEXCEPTION", "IOException during backend.startEvent()");
             }
-            float x = 0.1f;
-            for (int i = 0; i < 100; i++) {
-                dataSet.addEntry(new Entry(x, new Random().nextFloat()));
-                timeline.notifyDataSetChanged();
-                timeline.invalidate();
-                x += 1f;
-                timeline.scrollBy(1, 1);
-            }
+            
+            Timer timer = new Timer();
+            float x = 1f;
+            
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    //put real data here
+                    Entry newEntry = new Entry(new Random().nextFloat(), new Random().nextFloat());
+                    dataSet.addEntry(newEntry);
+                    timeline.notifyDataSetChanged();
+                    runOnUiThread(() -> timeline.moveViewToX(lineData.getEntryCount()));
+                }
+            };
+            
+            timer.scheduleAtFixedRate(timerTask, 0, TimeUnit.SECONDS.toMillis(2));
+            findViewById(R.id.stop_button).setOnClickListener(view -> timer.cancel());
         });
     }
     
     private void styleChart(LineDataSet dataSet, LineData lineData) {
+        timeline.setTouchEnabled(true);
+        timeline.setDragEnabled(true);
+        timeline.setScaleEnabled(true);
+        timeline.setDrawGridBackground(false);
+        timeline.setPinchZoom(true);
+        timeline.enableScroll();
+        
+        timeline.setVisibleXRangeMaximum(100);
+        timeline.getAxisLeft().setDrawGridLines(false);
+        timeline.getAxisLeft().setEnabled(false);
+        timeline.getAxisRight().setDrawGridLines(false);
+        timeline.getAxisRight().setEnabled(false);
+        timeline.setHighlightPerDragEnabled(false);
+        timeline.setHighlightPerTapEnabled(false);
+        timeline.setDrawBorders(false);
+        
+        Description description = new Description();
+        description.setText("");
+        timeline.setDescription(description);
+        
         dataSet.setCircleColor(ContextCompat.getColor(this, R.color.colorPrimary));
         dataSet.setDrawCircleHole(false);
         dataSet.setValueTextSize(15f);
@@ -134,21 +165,6 @@ public class TeacherEventActivity extends AppCompatActivity {
         xAxis.setValueFormatter(formatter);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawLabels(false);
-        
-        timeline.getAxisLeft().setDrawGridLines(false);
-        timeline.getAxisLeft().setEnabled(false);
-        
-        timeline.getAxisRight().setDrawGridLines(false);
-        timeline.getAxisRight().setEnabled(false);
-        
-        Description description = new Description();
-        description.setText("");
-        timeline.setDescription(description);
-        timeline.setHighlightPerDragEnabled(false);
-        timeline.setHighlightPerTapEnabled(false);
-        
-        timeline.setDrawBorders(false);
-        timeline.setGridBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
         
         lineData.setValueTextColor(R.color.colorPrimary);
     }

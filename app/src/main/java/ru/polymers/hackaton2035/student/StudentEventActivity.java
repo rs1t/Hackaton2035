@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class StudentEventActivity extends AppCompatActivity {
     
     List<Entry> entries;
     LineChart timeline;
+    int event_id;
     
     private BackendInterface backend = new MainBackend(new FrontendInterface() {
         
@@ -46,6 +48,8 @@ public class StudentEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_event);
+    
+        event_id = getIntent().getIntExtra("id", 1);
     
         timeline = findViewById(R.id.timeline);
         //entry - pair of x - time and y - number of actions
@@ -70,7 +74,11 @@ public class StudentEventActivity extends AppCompatActivity {
     }
     
     public void sendMark(View view) {
-//        backend.sendMark(new BackendInterface.Mark());
+        try {
+            backend.sendMark(new BackendInterface.Mark(event_id, 1, 1, (short) 0, "", ""));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     

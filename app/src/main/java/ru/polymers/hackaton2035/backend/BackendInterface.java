@@ -150,6 +150,16 @@ public interface BackendInterface {
         public String toJson() {
             return new Gson().toJson(this);
         }
+    
+        public Mark(int event_id, int student_id, int time_gap, short complexity, String comment, String emoticon) {
+            this.event_id = event_id;
+            this.student_id = student_id;
+            this.time_gap = time_gap;
+            this.complexity = complexity;
+            this.comment = comment;
+            this.emoticon = emoticon;
+        }
+    
         public Mark(String json) {
             new Gson().fromJson(json, this.getClass());
         }
