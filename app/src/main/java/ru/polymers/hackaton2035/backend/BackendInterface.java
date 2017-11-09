@@ -37,8 +37,7 @@ public interface BackendInterface {
         public String name;
         public String teacher_name;
         public String start_time, end_time = null; //HH:MM
-        String video_link;
-        String[] file_links;
+        String file_link;
         Timeline[] timeline;
 
         public Event(String name, String teacher_name, String start_time, int id) {
@@ -63,11 +62,7 @@ public interface BackendInterface {
 
 
         boolean hasVideo() {
-            return video_link != null && !video_link.equals("");
-        }
-
-        boolean hasFiles() {
-            return video_link != null && !video_link.equals("");
+            return file_link != null && !file_link.equals("");
         }
 
         Timestamp getStartTime() {
