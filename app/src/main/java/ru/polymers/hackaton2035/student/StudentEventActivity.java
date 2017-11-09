@@ -36,12 +36,6 @@ public class StudentEventActivity extends AppCompatActivity {
         public void setEventNames(BackendInterface.Event[] events) {}
         @Override
         public void setEvent(BackendInterface.Event event) {}
-        
-        @Override
-        public void setEntry(Entry entry) {
-            entries.add(entry);
-            timeline.invalidate();
-        }
     }, "");
     
     @Override

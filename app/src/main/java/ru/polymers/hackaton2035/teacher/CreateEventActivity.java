@@ -42,10 +42,6 @@ public class CreateEventActivity extends AppCompatActivity {
         public void setEvent(BackendInterface.Event event) {
             runOnUiThread(() -> { events.add(event); adapter.notifyDataSetChanged(); });
         }
-    
-        @Override
-        public void setEntry(Entry entry) {}
-        
     }, "");
 
     private List<BackendInterface.Event> events;

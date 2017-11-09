@@ -53,12 +53,6 @@ public class TeacherEventActivity extends AppCompatActivity {
         @Override
         public void setEvent(Event event) {
         }
-        
-        @Override
-        public void setEntry(Entry entry) {
-            entries.add(entry);
-            timeline.invalidate();
-        }
     }, "");
     
     @Override
@@ -125,7 +119,7 @@ public class TeacherEventActivity extends AppCompatActivity {
             };
             
             timer.scheduleAtFixedRate(timerTask, 0, TimeUnit.SECONDS.toMillis(2));
-            findViewById(R.id.stop_button).setOnClickListener(view -> timer.cancel());
+            findViewById(R.id.pause_event_button).setOnClickListener(view -> timer.cancel());
         });
     }
     
