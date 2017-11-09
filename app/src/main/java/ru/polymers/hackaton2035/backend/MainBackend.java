@@ -46,9 +46,10 @@ public class MainBackend implements BackendInterface {
             protected Void doInBackground(Mark... marks) {
                 try {
                     for (Mark mark : marks) {
-                        
-                        sendDataToUrl(Server_Url + "/" + mark.event_id + "/add", mark.toJson());
+                        String markjson = mark.toJson();
+                        sendDataToUrl(Server_Url + "/lecture/" + mark.event_id + "/add", markjson);
                     }
+
                     Log.e("Mark sender", "Successfully sent");
                 } catch (IOException e) {
                     Log.e("Mark sender failed", e.toString());
@@ -113,11 +114,11 @@ public class MainBackend implements BackendInterface {
     }
 
     @Override
-    public void eventUpdater(int event_id, int interval) {
-        CountDownTimer timer = new CountDownTimer(Long.MAX_VALUE, interval) {
+    public void graphUpdater(int event_id, int interval) {
+        new CountDownTimer(Long.MAX_VALUE, interval) {
             @Override
             public void onTick(long l) {
-                getEvent(event_id);
+                getGraph(event_id);
             }
 
             @Override
@@ -148,7 +149,29 @@ public class MainBackend implements BackendInterface {
         }.execute(event_id);
         
     }
-    
+
+    @Override
+    public void getGraph(int event_id) {
+        new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... ids) {
+                Graph result;
+                String json;
+                try {
+                    for (Integer id : ids) {
+                        json = getDataFromUrl(Server_Url + "/lecture/" + id + "/summary");
+                        result = new Graph(json);
+                        fi.setGraph(result);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute(event_id);
+
+    }
+
     @Override
     public void startEvent(int event_id) throws IOException {
         new AsyncTask<Integer, Void, Void>() {

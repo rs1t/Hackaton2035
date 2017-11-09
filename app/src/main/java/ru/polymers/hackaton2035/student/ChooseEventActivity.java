@@ -36,6 +36,10 @@ public class ChooseEventActivity extends AppCompatActivity {
         public void setEvent(BackendInterface.Event event) {
             runOnUiThread(() -> { events.add(event); adapter.notifyDataSetChanged(); });
         }
+
+        @Override
+        public void setGraph(BackendInterface.Graph graph) {
+        }
     }, "");
     
     private List<BackendInterface.Event> events;
@@ -50,7 +54,9 @@ public class ChooseEventActivity extends AppCompatActivity {
                 .contains("student")) {
             startActivity(new Intent(this, UserGreetingActivity.class));
         }
-        
+
+        backend.getEventNames(1);
+
         events = new ArrayList<>();
         ListView eventListView = findViewById(R.id.events_list_view);
         adapter = new EventListAdapter(

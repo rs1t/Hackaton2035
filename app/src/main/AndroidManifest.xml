@@ -17,13 +17,13 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".UserGreetingActivity"
-            android:label="Выберете профиль">
+            android:label="Выберите профиль">
 
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".student.ChooseEventActivity"
-            android:label="Выберете лекцию"
+            android:label="Выберите лекцию"
 
             android:screenOrientation="portrait">
             <intent-filter>

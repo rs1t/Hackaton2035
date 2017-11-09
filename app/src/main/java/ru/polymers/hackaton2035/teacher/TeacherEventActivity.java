@@ -19,28 +19,23 @@ import com.github.mikephil.charting.formatter.IValueFormatter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import ru.polymers.hackaton2035.R;
 import ru.polymers.hackaton2035.backend.BackendInterface;
 import ru.polymers.hackaton2035.backend.FrontendInterface;
 import ru.polymers.hackaton2035.backend.MainBackend;
 
-import static ru.polymers.hackaton2035.backend.BackendInterface.Event;
+import static ru.polymers.hackaton2035.backend.BackendInterface.*;
 
 public class TeacherEventActivity extends AppCompatActivity {
 
     List<Entry> entries;
     LineChart timeline;
-    int event_id;
+    static int event_id;
 
     float x = 0f;
 
     private BackendInterface backend = new MainBackend(new FrontendInterface() {
-
         @Override
         public void setEventNames(Event[] events) {
         }
@@ -48,6 +43,12 @@ public class TeacherEventActivity extends AppCompatActivity {
         @Override
         public void setEvent(Event event) {
         }
+
+        @Override
+        public void setGraph(Graph graph) {
+            updateGraph(graph);
+        }
+
     }, "");
 
     @Override
@@ -55,27 +56,18 @@ public class TeacherEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_event);
 
-        ImageButton playStopEventButton = findViewById(R.id.play_stop_event_button);
-        playStopEventButton.setOnClickListener(v -> {
-            //start event
-        });
-
         event_id = getIntent().getIntExtra("id", 1);
 
+        ImageButton playStopEventButton = findViewById(R.id.play_stop_event_button);
+        playStopEventButton.setOnClickListener(v -> {
+            backend.graphUpdater(TeacherEventActivity.event_id, 2000);
+        });
+
         timeline = findViewById(R.id.timeline);
-        //entry - pair of x - time and y - number of actions
 
         entries = new ArrayList<>();
-
         entries.add(new Entry(0f, 0f));
-//        entries.add(new Entry(5f, 2f));
-//        entries.add(new Entry(10f, 1f));
-//        entries.add(new Entry(15f, 0f));
-//        entries.add(new Entry(20f, 5f));
-//        entries.add(new Entry(25f, 4f));
-//        entries.add(new Entry(30f, 0f));
-//        entries.add(new Entry(35f, 0f));
-//
+
         LineDataSet dataSet = new LineDataSet(entries, "Активность");
 
         LineData lineData = new LineData(dataSet);
@@ -98,35 +90,25 @@ public class TeacherEventActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Log.e("IOEXCEPTION", "IOException during backend.startEvent()");
             }
+        });
+    }
 
-            Timer timer = new Timer();
+    void updateGraph(BackendInterface.Graph graph) {
+        runOnUiThread(() -> {
 
-            TimerTask timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    //put real data here
+            for (int i = 0; i < graph.t_gap.length; i++) {
+                x += 5;
+                Entry newEntry = new Entry(graph.t_gap[i], graph.amount[i]);
+                entries.add(newEntry);
+                LineDataSet dataSet = new LineDataSet(entries, "Активность");
+                LineData lineData = new LineData(dataSet);
+                styleChart(dataSet, lineData);
 
-
-                    runOnUiThread(() -> {
-                        x += 5;
-                        Entry newEntry = new Entry(x, new Random().nextInt(6));
-                        entries.add(newEntry);
-                        LineDataSet dataSet = new LineDataSet(entries, "Активность");
-                        LineData lineData = new LineData(dataSet);
-                        styleChart(dataSet, lineData);
-
-                        timeline.setData(lineData);
-                        timeline.notifyDataSetChanged();
-                        timeline.invalidate();
-                        timeline.moveViewToX(lineData.getEntryCount() - 1);
-                    });
-
-
-                }
-            };
-
-            timer.scheduleAtFixedRate(timerTask, 0, TimeUnit.SECONDS.toMillis(2));
-            findViewById(R.id.pause_event_button).setOnClickListener(view -> timer.cancel());
+                timeline.setData(lineData);
+                timeline.notifyDataSetChanged();
+                timeline.invalidate();
+                timeline.moveViewToX(lineData.getEntryCount() - 1);
+            }
         });
     }
 

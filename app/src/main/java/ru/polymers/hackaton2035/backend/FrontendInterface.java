@@ -1,7 +1,11 @@
 package ru.polymers.hackaton2035.backend;
 
-public interface FrontendInterface {
-    void setEventNames(BackendInterface.Event[] events);
+import static ru.polymers.hackaton2035.backend.BackendInterface.*;
 
-    void setEvent(BackendInterface.Event event);
+public interface FrontendInterface {
+    void setEventNames(Event[] events);
+
+    void setEvent(Event event);
+
+    void setGraph(Graph graph);
 }

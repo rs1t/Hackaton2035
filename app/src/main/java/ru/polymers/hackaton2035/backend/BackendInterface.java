@@ -15,13 +15,15 @@ public interface BackendInterface {
 
     void eventsUpdater(int student_id, int interval);
 
-    void eventUpdater(int event_id, int interval);
+    void graphUpdater(int event_id, int interval);
 
     void sendMark(Mark... marks) throws IOException;
 
     void sendEvent(Event... events) throws IOException;
 
     void getEvent(int event_id);
+
+    void getGraph(int event_id);
 
     void startEvent(int event_id) throws IOException;
 
@@ -74,6 +76,20 @@ public interface BackendInterface {
         }
     }
 
+    class Graph {
+        public int[] t_gap;
+        public int[] amount;
+
+        public Graph(String json) {
+            new Gson().fromJson(json, Event.class);
+        }
+
+        String toJson() {
+            return new Gson().toJson(this);
+        }
+
+    }
+
     class Timeline {
         int[] flags;
     }
@@ -81,7 +97,7 @@ public interface BackendInterface {
     class Timestamp {
         int YYYY, MM, DD, hh, mm, ss;
 
-        Timestamp() {
+        public Timestamp() {
             setDefaultToday();
         }
 
@@ -104,6 +120,7 @@ public interface BackendInterface {
             DD = t.getDay();
             hh = t.getHours();
             mm = t.getMinutes();
+            ss = t.getSeconds();
         }
 
         void parse(String s) {
@@ -143,16 +160,33 @@ public interface BackendInterface {
     class Mark {
         int event_id;
         int student_id;
-        int time_gap;
+        Timestamp time_gap;
         short complexity;
         String comment;
         String emoticon;
 
-        public String toJson() {
+        public String toJson2() {
             return new Gson().toJson(this);
         }
-    
-        public Mark(int event_id, int student_id, int time_gap, short complexity, String comment, String emoticon) {
+
+        public String toJson() {
+            return "{" +
+                    "\"event_id\":\"" + event_id +'\"' +
+                    ", \"student_id\":\"" + student_id + '\"'+
+                    ", \"time_gap\":\"" + time_gap + '\"'+
+                    ", \"complexity\":\"" + complexity + '\"' +
+                    ", \"comment\":\"" + comment + '\"' +
+                    ", \"emoticon\":\"" + emoticon + '\"' +
+                    "}";
+        }
+
+        public Mark(int event_id, int student_id, Timestamp time_gap) {
+            this.event_id = event_id;
+            this.student_id = student_id;
+            this.time_gap = time_gap;
+        }
+
+        public Mark(int event_id, int student_id, Timestamp time_gap, short complexity, String comment, String emoticon) {
             this.event_id = event_id;
             this.student_id = student_id;
             this.time_gap = time_gap;

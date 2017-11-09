@@ -42,6 +42,11 @@ public class CreateEventActivity extends AppCompatActivity {
         public void setEvent(BackendInterface.Event event) {
             runOnUiThread(() -> { events.add(event); adapter.notifyDataSetChanged(); });
         }
+
+        @Override
+        public void setGraph(BackendInterface.Graph graph) {
+
+        }
     }, "");
 
     private List<BackendInterface.Event> events;
@@ -56,6 +61,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 .contains("student")) {
             startActivity(new Intent(this, UserGreetingActivity.class));
         }
+
+        backend.getEventNames(1);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
