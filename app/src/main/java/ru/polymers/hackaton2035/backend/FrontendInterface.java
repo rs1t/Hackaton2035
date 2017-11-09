@@ -7,5 +7,5 @@ public interface FrontendInterface {
 
     void setEvent(Event event);
 
-    void setGraph(Graph graph);
+    void setGraph(Graph[] graph);
 }

@@ -38,7 +38,7 @@ public class ChooseEventActivity extends AppCompatActivity {
         }
 
         @Override
-        public void setGraph(BackendInterface.Graph graph) {
+        public void setGraph(BackendInterface.Graph[] graph) {
         }
     }, "");
     
@@ -66,7 +66,10 @@ public class ChooseEventActivity extends AppCompatActivity {
         eventListView.setAdapter(adapter);
         eventListView.setOnItemClickListener((parent, view, position, id) -> {
             BackendInterface.Event event = adapter.getItem(position);
-            startActivity(new Intent(this, StudentEventActivity.class)); //maybe put some extra
+            int event_id = event.getEvent_id();
+            Intent intent = new Intent(this, StudentEventActivity.class);
+            intent.putExtra("event_id", event_id);
+            startActivity(intent); //maybe put some extra
         });
     }
     

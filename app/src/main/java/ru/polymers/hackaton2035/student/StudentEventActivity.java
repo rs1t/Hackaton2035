@@ -24,6 +24,7 @@ import ru.polymers.hackaton2035.R;
 import ru.polymers.hackaton2035.backend.BackendInterface;
 import ru.polymers.hackaton2035.backend.FrontendInterface;
 import ru.polymers.hackaton2035.backend.MainBackend;
+import ru.polymers.hackaton2035.teacher.TeacherEventActivity;
 
 import static ru.polymers.hackaton2035.backend.BackendInterface.Event;
 import static ru.polymers.hackaton2035.backend.BackendInterface.Graph;
@@ -46,7 +47,7 @@ public class StudentEventActivity extends AppCompatActivity {
         }
 
         @Override
-        public void setGraph(Graph graph) {
+        public void setGraph(Graph[] graph) {
             updateGraph(graph);
         }
 
@@ -57,7 +58,10 @@ public class StudentEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_event);
 
-        event_id = getIntent().getIntExtra("id", 1);
+        event_id = getIntent().getIntExtra("event_id", 49);
+
+
+        backend.graphUpdater(event_id, 2000);
 
         timeline = findViewById(R.id.timeline);
         //entry - pair of x - time and y - number of actions
@@ -83,12 +87,12 @@ public class StudentEventActivity extends AppCompatActivity {
     }
 
 
-    void updateGraph(BackendInterface.Graph graph) {
+    void updateGraph(BackendInterface.Graph[] graph) {
+        if (graph == null) return;
         runOnUiThread(() -> {
-
-            for (int i = 0; i < graph.t_gap.length; i++) {
+            for (int i = 0; i < graph.length; i++) {
                 x += 5;
-                Entry newEntry = new Entry(graph.t_gap[i], graph.amount[i]);
+                Entry newEntry = new Entry(graph[i].t_gap, graph[i].amount);
                 entries.add(newEntry);
                 LineDataSet dataSet = new LineDataSet(entries, "Активность");
                 LineData lineData = new LineData(dataSet);

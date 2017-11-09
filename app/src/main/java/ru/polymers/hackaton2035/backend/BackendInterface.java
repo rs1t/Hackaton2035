@@ -76,18 +76,23 @@ public interface BackendInterface {
         }
     }
 
+//    class Graph {
+//        public int[] t_gap;
+//        public int[] amount;
+//
+//        public Graph(String json) {
+//            new Gson().fromJson(json, Event.class);
+//        }
+//
+//        String toJson() {
+//            return new Gson().toJson(this);
+//        }
+//
+//    }
+
     class Graph {
-        public int[] t_gap;
-        public int[] amount;
-
-        public Graph(String json) {
-            new Gson().fromJson(json, Event.class);
-        }
-
-        String toJson() {
-            return new Gson().toJson(this);
-        }
-
+        public int t_gap;
+        public int amount;
     }
 
     class Timeline {

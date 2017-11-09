@@ -44,7 +44,7 @@ public class CreateEventActivity extends AppCompatActivity {
         }
 
         @Override
-        public void setGraph(BackendInterface.Graph graph) {
+        public void setGraph(BackendInterface.Graph[] graph) {
 
         }
     }, "");

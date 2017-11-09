@@ -24,9 +24,9 @@ public class CreateEventFormActivity extends AppCompatActivity {
         EditText teacherName = findViewById(R.id.teacher_name_edit_text);
         EditText dateAndTime = findViewById(R.id.date_and_time_edit_text);
 
-        eventName.setText("Math");
-        teacherName.setText("H.T. Teacher");
-        dateAndTime.setText("14:00");
+        eventName.setText("Hackathon");
+        teacherName.setText("Fyodorov Anton");
+        dateAndTime.setText("16:00");
 
         Button addEventButton = findViewById(R.id.add_event_button);
         addEventButton.setOnClickListener(v -> {

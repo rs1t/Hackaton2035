@@ -45,7 +45,7 @@ public class TeacherEventActivity extends AppCompatActivity {
         }
 
         @Override
-        public void setGraph(Graph graph) {
+        public void setGraph(Graph[] graph) {
             updateGraph(graph);
         }
 
@@ -93,12 +93,12 @@ public class TeacherEventActivity extends AppCompatActivity {
         });
     }
 
-    void updateGraph(BackendInterface.Graph graph) {
+    void updateGraph(BackendInterface.Graph[] graph) {
         runOnUiThread(() -> {
 
-            for (int i = 0; i < graph.t_gap.length; i++) {
+            for (int i = 0; i < graph.length; i++) {
                 x += 5;
-                Entry newEntry = new Entry(graph.t_gap[i], graph.amount[i]);
+                Entry newEntry = new Entry(graph[i].t_gap, graph[i].amount);
                 entries.add(newEntry);
                 LineDataSet dataSet = new LineDataSet(entries, "Активность");
                 LineData lineData = new LineData(dataSet);

@@ -29,7 +29,8 @@ import com.google.gson.Gson;
 
 @SuppressLint("StaticFieldLeak")
 public class MainBackend implements BackendInterface {
-    public static String Server_Url = "http://192.168.88.214:8000"; // дефолтный
+//    public static String Server_Url = "http://192.168.88.214:8000"; // дефолтный
+    public static String Server_Url = "http://192.168.43.43:8000"; // дефолтный
     FrontendInterface fi;
     
     public MainBackend(FrontendInterface fi, String server_Url) {
@@ -155,13 +156,15 @@ public class MainBackend implements BackendInterface {
         new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... ids) {
-                Graph result;
+                Graph[] result;
                 String json;
                 try {
                     for (Integer id : ids) {
                         json = getDataFromUrl(Server_Url + "/lecture/" + id + "/summary");
-                        result = new Graph(json);
-                        fi.setGraph(result);
+                        if (json != "[]" && json != "") {
+                            result = new Gson().fromJson(json, Graph[].class);
+                            fi.setGraph(result);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
