@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ru.polymers.hackaton2035.R;
 import ru.polymers.hackaton2035.backend.BackendInterface;
@@ -96,6 +98,8 @@ public class TeacherEventActivity extends AppCompatActivity {
                 v -> presentation.setImageDrawable(getResources().getDrawable(R.drawable.presentation_sample2)));
         findViewById(R.id.previous_slide_button).setOnClickListener(
                 v -> presentation.setImageDrawable(getResources().getDrawable(R.drawable.presentation_sample1)));
+        
+        
         
         findViewById(R.id.play_stop_event_button).setOnClickListener(v -> {
             try {
