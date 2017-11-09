@@ -39,7 +39,8 @@
         app:layout_constraintEnd_toStartOf="@+id/slower_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/interrobang_red"/>
+        app:srcCompat="@drawable/interrobang_red"
+        android:onClick="sendMark"/>
 
 
     <ImageButton
@@ -51,7 +52,8 @@
         app:layout_constraintEnd_toStartOf="@+id/faster_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/wtf_button"
-        app:srcCompat="@drawable/ic_fast_rewind_white_24px"/>
+        app:srcCompat="@drawable/ic_fast_rewind_white_24px"
+        android:onClick="sendMark"/>
 
     <ImageButton
         android:id="@+id/faster_button"
@@ -62,7 +64,8 @@
         app:layout_constraintEnd_toStartOf="@+id/emotion_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/slower_button"
-        app:srcCompat="@drawable/ic_fast_forward_white_24px"/>
+        app:srcCompat="@drawable/ic_fast_forward_white_24px"
+        android:onClick="sendMark"/>
 
     <ImageView
         android:id="@+id/emotion_button"

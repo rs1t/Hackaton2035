@@ -3,6 +3,8 @@ package ru.polymers.hackaton2035.teacher;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -19,6 +21,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +36,7 @@ public class TeacherEventActivity extends AppCompatActivity {
     
     List<Entry> entries;
     LineChart timeline;
+    int event_id;
     
     private BackendInterface backend = new MainBackend(new FrontendInterface() {
     
@@ -58,6 +62,8 @@ public class TeacherEventActivity extends AppCompatActivity {
             //start event
         });
 
+        event_id = getIntent().getIntExtra("id", 1);
+        
         timeline = findViewById(R.id.timeline);
         //entry - pair of x - time and y - number of actions
     
@@ -86,6 +92,16 @@ public class TeacherEventActivity extends AppCompatActivity {
         findViewById(R.id.previous_slide_button).setOnClickListener(
                 v -> presentation.setImageDrawable(getResources().getDrawable(R.drawable.presentation_sample1)));
         
+        Chronometer timer = findViewById(R.id.timer);
+    
+        findViewById(R.id.play_stop_event_button).setOnClickListener(v -> {
+            timer.start();
+            try {
+                backend.startEvent(event_id);
+            } catch (IOException e) {
+                Log.e("IOEXCEPTION", "IOException during backend.startEvent()");
+            }
+        });
     }
     
     private void styleChart(LineDataSet dataSet, LineData lineData) {

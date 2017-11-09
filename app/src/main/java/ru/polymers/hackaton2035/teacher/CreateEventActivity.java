@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -72,14 +73,17 @@ public class CreateEventActivity extends AppCompatActivity {
         eventListView.setAdapter(adapter);
         eventListView.setOnItemClickListener((parent, view, position, id) -> {
             BackendInterface.Event event = adapter.getItem(position);
-            startActivity(new Intent(this, TeacherEventActivity.class));
+            int eventId = event.getEvent_id();
+            Intent intentToStartEvent = new Intent(this, TeacherEventActivity.class);
+            intentToStartEvent.putExtra("id", eventId);
+            startActivity(intentToStartEvent);
         });
 
         FloatingActionButton fab = findViewById(R.id.create_event_fab);
         fab.setOnClickListener(view -> startActivityForResult(
                 new Intent(this, CreateEventFormActivity.class), 1));
     }
-
+    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -89,7 +93,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 extras.getString("event_name"),
                 extras.getString("teacher_name"),
                 extras.getString("date_and_time"),
-                BackendInterface.Event.getId());
+                1);
         events.add(newEvent);
         try {
             backend.sendEvent(newEvent);

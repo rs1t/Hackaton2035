@@ -30,13 +30,17 @@ public interface BackendInterface {
     void downloadFile(String url, String path, Context context);
 
     class Event {
-        public Event(int id, String name) {
-            this.id = id;
-            this.name = name;
-        }
+        
+        int event_id;
+        public String name;
+        public String teacher_name;
+        public String start_time, end_time = null; //HH:MM
+        String video_link;
+        String[] file_links;
+        Timeline[] timeline;
 
         public Event(String name, String teacher_name, String start_time, int id) {
-            this.id = id;
+            this.event_id = event_id;
             this.name = name;
             this.teacher_name = teacher_name;
             this.start_time = start_time;
@@ -46,20 +50,15 @@ public interface BackendInterface {
         public Event(String json) {
             new Gson().fromJson(json, Event.class);
         }
-
+        
+        public int getEvent_id() { return event_id; }
+        
         String toJson() {
             start_time = new Timestamp(start_time).toString();
             end_time = new Timestamp(end_time).toString();
             return new Gson().toJson(this);
         }
 
-        int id;
-        public String name;
-        public String teacher_name;
-        public String start_time, end_time = null; //HH:MM
-        String video_link;
-        String[] file_links;
-        Timeline[] timeline;
 
         boolean hasVideo() {
             return video_link != null && !video_link.equals("");
@@ -75,20 +74,6 @@ public interface BackendInterface {
 
         Timestamp getEndTime() {
             return new Timestamp(end_time);
-        }
-
-        public static int getId() {
-            return 1;
-        }
-    }
-    
-    class Entry {
-        private long timestamp;
-        private int marksCount;
-        
-        public Entry(long timeStamp, int marksCount) {
-            this.timestamp = timeStamp;
-            this.marksCount = marksCount;
         }
     }
 
@@ -159,8 +144,8 @@ public interface BackendInterface {
         int student_id;
         int time_gap;
         short complexity;
-        String emoticon;
         String comment;
+        String emoticon;
 
         public String toJson() {
             return new Gson().toJson(this);

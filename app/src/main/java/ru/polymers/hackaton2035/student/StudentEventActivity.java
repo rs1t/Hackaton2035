@@ -3,6 +3,8 @@ package ru.polymers.hackaton2035.student;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Chronometer;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -66,8 +68,12 @@ public class StudentEventActivity extends AppCompatActivity {
         
         timeline.setData(lineData);
         timeline.invalidate(); // refresh
-    
     }
+    
+    public void sendMark(View view) {
+//        backend.sendMark(new BackendInterface.Mark());
+    }
+    
     
     private void styleChart(LineDataSet dataSet, LineData lineData) {
         dataSet.setCircleColor(ContextCompat.getColor(this, R.color.colorPrimary));
