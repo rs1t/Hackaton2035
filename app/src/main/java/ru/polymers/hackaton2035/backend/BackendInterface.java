@@ -15,6 +15,8 @@ public interface BackendInterface {
 
     void eventsUpdater(int student_id, int interval);
 
+    void eventUpdater(int event_id, int interval);
+
     void sendMark(Mark... marks) throws IOException;
 
     void sendEvent(Event... events) throws IOException;
@@ -136,6 +138,10 @@ public interface BackendInterface {
         public String toString() {
             return (YYYY < 2000 ? 2017 : YYYY) + "-" + (MM > 9 ? "" : "0") + MM + "-" + (DD > 9 ? "" : "0") + DD + " " + (hh > 9 ? "" : "0")
                     + hh + ":" + (mm > 9 ? "" : "0") + mm + ":" + (ss > 9 ? "" : "0") + ss;
+        }
+
+        public String toJson() {
+            return "\"timestamp\":\"" + toString() + "\"";
         }
     }
 
