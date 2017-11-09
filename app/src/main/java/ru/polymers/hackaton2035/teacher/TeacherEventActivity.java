@@ -4,6 +4,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -78,6 +79,12 @@ public class TeacherEventActivity extends AppCompatActivity {
         
         timeline.setData(lineData);
         timeline.invalidate(); // refresh
+    
+        ImageView presentation = findViewById(R.id.presentation);
+        findViewById(R.id.next_slide_button).setOnClickListener(
+                v -> presentation.setImageDrawable(getResources().getDrawable(R.drawable.presentation_sample2)));
+        findViewById(R.id.previous_slide_button).setOnClickListener(
+                v -> presentation.setImageDrawable(getResources().getDrawable(R.drawable.presentation_sample1)));
         
     }
     

@@ -20,47 +20,63 @@
         app:layout_constraintVertical_bias="0.0"/>
 
     <ImageButton
-        android:id="@+id/pause_event_button"
-        android:layout_width="86dp"
-        android:layout_height="71dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton3"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/play_stop_event_button"
-        app:srcCompat="@android:drawable/ic_media_pause"/>
-
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="73dp"
-        android:layout_height="71dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageButton3"
-        app:srcCompat="@android:drawable/ic_media_next"/>
-
-    <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="76dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/pause_event_button"
-        app:srcCompat="@android:drawable/ic_media_previous"/>
-
-    <ImageButton
         android:id="@+id/play_stop_event_button"
-        android:layout_width="88dp"
-        android:layout_height="71dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/pause_event_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_today"/>
+        app:layout_constraintTop_toBottomOf="@+id/presentation"
+        app:srcCompat="@drawable/ic_play_arrow_white_24dp"/>
+
+    <ImageButton
+        android:id="@+id/pause_event_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/previous_slide_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/play_stop_event_button"
+        app:layout_constraintTop_toBottomOf="@+id/presentation"
+        app:srcCompat="@drawable/ic_pause_white_24dp"/>
+
+    <ImageButton
+        android:id="@+id/next_slide_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/previous_slide_button"
+        app:layout_constraintTop_toBottomOf="@+id/presentation"
+        app:srcCompat="@drawable/ic_arrow_forward_white_24dp"/>
+
+    <ImageButton
+        android:id="@+id/previous_slide_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/next_slide_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/pause_event_button"
+        app:layout_constraintTop_toBottomOf="@+id/presentation"
+        app:srcCompat="@drawable/ic_arrow_back_white_24dp"/>
+
+    <ImageView
+        android:id="@+id/presentation"
+        android:layout_width="wrap_content"
+        android:layout_height="240dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeline"
+        app:srcCompat="@drawable/presentation_sample1"/>
 
 </android.support.constraint.ConstraintLayout>
