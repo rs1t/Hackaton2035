@@ -72,16 +72,16 @@ public class TeacherEventActivity extends AppCompatActivity {
         //entry - pair of x - time and y - number of actions
         
         entries = new ArrayList<>();
+        
         entries.add(new Entry(0f, 0f));
-        
-        entries.add(new Entry(5f, 2f));
-        entries.add(new Entry(10f, 1f));
-        entries.add(new Entry(15f, 0f));
-        entries.add(new Entry(20f, 5f));
-        entries.add(new Entry(25f, 4f));
-        entries.add(new Entry(30f, 0f));
-        entries.add(new Entry(35f, 0f));
-        
+//        entries.add(new Entry(5f, 2f));
+//        entries.add(new Entry(10f, 1f));
+//        entries.add(new Entry(15f, 0f));
+//        entries.add(new Entry(20f, 5f));
+//        entries.add(new Entry(25f, 4f));
+//        entries.add(new Entry(30f, 0f));
+//        entries.add(new Entry(35f, 0f));
+//
         LineDataSet dataSet = new LineDataSet(entries, "Активность");
         LineData lineData = new LineData(dataSet);
         
@@ -89,6 +89,7 @@ public class TeacherEventActivity extends AppCompatActivity {
         
         timeline.setData(lineData);
         timeline.invalidate(); // refresh
+        timeline.enableScroll();
         
         ImageView presentation = findViewById(R.id.presentation);
         findViewById(R.id.next_slide_button).setOnClickListener(
@@ -96,21 +97,19 @@ public class TeacherEventActivity extends AppCompatActivity {
         findViewById(R.id.previous_slide_button).setOnClickListener(
                 v -> presentation.setImageDrawable(getResources().getDrawable(R.drawable.presentation_sample1)));
         
-        Chronometer timer = findViewById(R.id.timer);
-        
         findViewById(R.id.play_stop_event_button).setOnClickListener(v -> {
-            timer.start();
             try {
                 backend.startEvent(event_id);
             } catch (IOException e) {
                 Log.e("IOEXCEPTION", "IOException during backend.startEvent()");
             }
-            float x = 0f;
+            float x = 0.1f;
             for (int i = 0; i < 100; i++) {
-                dataSet.addEntry(new Entry(x, new Random().nextFloat() % 10));
+                dataSet.addEntry(new Entry(x, new Random().nextFloat()));
                 timeline.notifyDataSetChanged();
                 timeline.invalidate();
-                x += 5f;
+                x += 1f;
+                timeline.scrollBy(1, 1);
             }
         });
     }
