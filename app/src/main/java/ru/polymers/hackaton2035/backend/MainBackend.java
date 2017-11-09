@@ -111,7 +111,22 @@ public class MainBackend implements BackendInterface {
             }
         }.start();
     }
-    
+
+    @Override
+    public void eventUpdater(int event_id, int interval) {
+        CountDownTimer timer = new CountDownTimer(Long.MAX_VALUE, interval) {
+            @Override
+            public void onTick(long l) {
+                getEvent(event_id);
+            }
+
+            @Override
+            public void onFinish() {
+                start();
+            }
+        }.start();
+    }
+
     @Override
     public void getEvent(int event_id) {
         new AsyncTask<Integer, Void, Void>() {
@@ -140,7 +155,7 @@ public class MainBackend implements BackendInterface {
             @Override
             protected Void doInBackground(Integer... integers) {
                 try {
-                    sendDataToUrl(Server_Url + "/lecture/" + event_id + "/m/s", new Timestamp().toString());
+                    sendDataToUrl(Server_Url + "/lecture/" + event_id + "/m/s", new Timestamp().toJson());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -148,13 +163,14 @@ public class MainBackend implements BackendInterface {
             }
         }.execute(event_id);
     }
-    
+
+    @Override
     public void endEvent(int event_id) throws IOException {
         new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... integers) {
                 try {
-                    sendDataToUrl(Server_Url + "/lecture/" + event_id + "/m/e", new Timestamp().toString());
+                    sendDataToUrl(Server_Url + "/lecture/" + event_id + "/m/e", new Timestamp().toJson());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -179,7 +195,7 @@ public class MainBackend implements BackendInterface {
             }
         }.execute(event_ids);
     }
-    
+
     @Override
     public void downloadFile(String url, String path, Context context) {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
